@@ -1,0 +1,13 @@
+# Godot-specific
+.godot/
+.import/
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Arquivos temporários
+*.tmp
+*.log
+*.bak

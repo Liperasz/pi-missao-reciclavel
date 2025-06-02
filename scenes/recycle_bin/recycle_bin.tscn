@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://dm0nv7mdhpm30"]
+
+[ext_resource type="Script" uid="uid://bwaxfm1g1vfik" path="res://scripts/recycle_bin/recycle_bin.gd" id="1_65t6r"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3brom"]
+size = Vector2(91, 78)
+
+[node name="Recycle_bin" type="StaticBody2D" groups=["dropable"]]
+script = ExtResource("1_65t6r")
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+position = Vector2(0, -34)
+shape = SubResource("RectangleShape2D_3brom")
+
+[node name="Texture" type="Sprite2D" parent="."]
+scale = Vector2(0.08, 0.08)

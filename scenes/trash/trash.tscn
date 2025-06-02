@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://cju2hkmd3d61g"]
+
+[ext_resource type="Script" uid="uid://d4is6uku41w1t" path="res://scripts/trash/trash.gd" id="1_ymemc"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pnhuw"]
+size = Vector2(60, 60)
+
+[node name="Trash" type="Node2D"]
+script = ExtResource("1_ymemc")
+
+[node name="Texture" type="Sprite2D" parent="."]
+scale = Vector2(0.08, 0.08)
+
+[node name="Area" type="Area2D" parent="."]
+
+[node name="Collision" type="CollisionShape2D" parent="Area"]
+position = Vector2(-1, -1)
+shape = SubResource("RectangleShape2D_pnhuw")
+
+[connection signal="body_entered" from="Area" to="." method="_on_area_body_entered"]
+[connection signal="body_exited" from="Area" to="." method="_on_area_body_exited"]
+[connection signal="mouse_entered" from="Area" to="." method="_on_area_mouse_entered"]
+[connection signal="mouse_exited" from="Area" to="." method="_on_area_mouse_exited"]
