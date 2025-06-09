@@ -3,6 +3,9 @@ extends Node2D
 var is_dragging = false
 var player_level = 1
 
+# Variaveis para dicas
+var erros = 0
+var erros_consecutivos = 0
 
 #sistema de pontuação inicio
 #variaves inicializadas
