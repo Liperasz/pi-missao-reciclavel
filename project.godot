@@ -20,9 +20,8 @@ global="*res://scripts/global.gd"
 
 [display]
 
-window/size/viewport_width=390
-window/size/viewport_height=844
-window/stretch/scale=0.5
+window/size/mode=2
+window/stretch/scale=0.8
 
 [global_group]
 
@@ -42,4 +41,5 @@ pointing/emulate_touch_from_mouse=true
 
 [rendering]
 
-renderer/rendering_method="mobile"
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"

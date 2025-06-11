@@ -102,12 +102,12 @@ func _on_area_mouse_exited() -> void:
 		scale = Vector2(1, 1)
 
 func mostrar_dica():
-	var dica = "Dica: O lixo " + type + " deve ir na lixeira de " + type.to_upper() + "."
+	var dica = "O lixo deve ir na lixeira de " + type.to_upper() + "."
 
 	var label = Label.new()
 	label.text = dica
-	label.add_theme_font_size_override("font_size", 24)
-	label.position = Vector2(50, 50)  # Corrigido aqui
+	label.add_theme_font_size_override("font_size", 18)
+	label.position = Vector2(50, 50)  
 	label.modulate.a = 0
 
 	get_tree().current_scene.add_child(label)
