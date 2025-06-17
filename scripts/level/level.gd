@@ -3,6 +3,7 @@ extends Node2D
 @onready var recyble_bin_container: StaticBody2D = get_node("Recycle_bin")
 @onready var trash_container: Node2D = get_node("Trash")
 @onready var background: TextureRect = get_node("Background")
+@onready var label_vida: Label = get_node("LabelVida")
 
 var scenarios = [
 	"biblioteca",
@@ -39,10 +40,11 @@ func _ready() -> void:
 	choose_trash_types()
 	create_recycle_bins()
 	create_trash()
+	atualizar_label()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	pass
+	atualizar_label()
 
 
 func choose_scenario() -> void:
@@ -50,7 +52,12 @@ func choose_scenario() -> void:
 	var path = "res://assets/scenarios/%s.png" % scenario
 	background.texture = load(path)
 
-
+func atualizar_label():
+	label_vida.text =  "VIDA: " + str("%02d" % [global.qtd_vida])
+	if global.qtd_vida <= 0:
+		global.qtd_vida = global.vidas
+		get_tree().reload_current_scene()
+	
 func choose_trash_types() -> void:
 	types_in_level = trash_types
 	types_in_level.shuffle()

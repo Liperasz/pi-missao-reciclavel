@@ -15,3 +15,10 @@ scale = Vector2(0.4, 0.4)
 [node name="Recycle_bin" parent="." instance=ExtResource("2_i166f")]
 
 [node name="Trash" parent="." instance=ExtResource("3_i166f")]
+
+[node name="LabelVida" type="Label" parent="."]
+offset_left = 148.0
+offset_top = 31.0
+offset_right = 250.0
+offset_bottom = 54.0
+text = "VIDA:"
