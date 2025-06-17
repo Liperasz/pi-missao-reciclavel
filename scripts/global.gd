@@ -3,6 +3,9 @@ extends Node2D
 var is_dragging = false
 var player_level = 1
 
+var vidas : int = 5
+var qtd_vida : int = vidas
+
 # Variaveis para dicas
 var erros = 0
 var erros_consecutivos = 0

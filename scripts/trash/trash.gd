@@ -39,6 +39,7 @@ func _process(delta: float) -> void:
 					global.erros += 1
 					global.erros_consecutivos += 1
 					print("Lixeira Errada")
+					global.qtd_vida -= 1
 
 					if global.erros_consecutivos >= 2:
 						mostrar_dica()
