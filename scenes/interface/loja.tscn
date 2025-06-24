@@ -1,0 +1,119 @@
+[gd_scene load_steps=3 format=3 uid="uid://dsn3ptx7pch02"]
+
+[ext_resource type="Script" uid="uid://rcfu4m7xob6d" path="res://scripts/interface/loja.gd" id="1_15edx"]
+[ext_resource type="Texture2D" uid="uid://dinvxcoayxabl" path="res://assets/interface/loja/loja.png" id="1_plj6y"]
+
+[node name="Scene" type="Node2D"]
+script = ExtResource("1_15edx")
+
+[node name="Background" type="TextureRect" parent="."]
+offset_right = 972.0
+offset_bottom = 2127.0
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("1_plj6y")
+
+[node name="Item1" type="Button" parent="."]
+offset_left = 16.0
+offset_top = 53.0
+offset_right = 176.0
+offset_bottom = 196.0
+flat = true
+metadata/_edit_use_anchors_ = true
+
+[node name="Item2" type="Button" parent="."]
+offset_left = 210.0
+offset_top = 52.0
+offset_right = 370.0
+offset_bottom = 195.0
+flat = true
+
+[node name="Item3" type="Button" parent="."]
+offset_left = 19.0
+offset_top = 305.0
+offset_right = 179.0
+offset_bottom = 448.0
+flat = true
+
+[node name="Item4" type="Button" parent="."]
+offset_left = 210.0
+offset_top = 308.0
+offset_right = 370.0
+offset_bottom = 451.0
+flat = true
+
+[node name="Item5" type="Button" parent="."]
+offset_left = 15.0
+offset_top = 557.0
+offset_right = 175.0
+offset_bottom = 700.0
+flat = true
+
+[node name="Item6" type="Button" parent="."]
+offset_left = 208.0
+offset_top = 558.0
+offset_right = 368.0
+offset_bottom = 701.0
+flat = true
+
+[node name="Voltar" type="Button" parent="."]
+offset_left = 12.0
+offset_top = 770.0
+offset_right = 78.0
+offset_bottom = 831.0
+flat = true
+
+[node name="Comprar1" type="Button" parent="."]
+offset_left = 12.0
+offset_top = 209.0
+offset_right = 185.0
+offset_bottom = 257.0
+flat = true
+
+[node name="Comprar2" type="Button" parent="."]
+offset_left = 204.0
+offset_top = 208.0
+offset_right = 377.0
+offset_bottom = 256.0
+flat = true
+
+[node name="Comprar3" type="Button" parent="."]
+offset_left = 13.0
+offset_top = 460.0
+offset_right = 186.0
+offset_bottom = 508.0
+flat = true
+
+[node name="Comprar4" type="Button" parent="."]
+offset_left = 204.0
+offset_top = 460.0
+offset_right = 377.0
+offset_bottom = 508.0
+flat = true
+
+[node name="Comprar5" type="Button" parent="."]
+offset_left = 14.0
+offset_top = 712.0
+offset_right = 187.0
+offset_bottom = 760.0
+flat = true
+
+[node name="Comprar6" type="Button" parent="."]
+offset_left = 206.0
+offset_top = 713.0
+offset_right = 379.0
+offset_bottom = 761.0
+flat = true
+
+[connection signal="button_up" from="Item1" to="." method="_on_item_1_button_up"]
+[connection signal="button_up" from="Item2" to="." method="_on_item_2_button_up"]
+[connection signal="button_up" from="Item3" to="." method="_on_item_3_button_up"]
+[connection signal="button_up" from="Item4" to="." method="_on_item_4_button_up"]
+[connection signal="button_up" from="Item5" to="." method="_on_item_5_button_up"]
+[connection signal="button_up" from="Item6" to="." method="_on_item_6_button_up"]
+[connection signal="button_up" from="Voltar" to="." method="_on_voltar_button_up"]
+[connection signal="button_up" from="Comprar1" to="." method="_on_comprar_1_button_up"]
+[connection signal="button_up" from="Comprar2" to="." method="_on_comprar_2_button_up"]
+[connection signal="button_up" from="Comprar3" to="." method="_on_comprar_3_button_up"]
+[connection signal="button_up" from="Comprar4" to="." method="_on_comprar_4_button_up"]
+[connection signal="button_up" from="Comprar5" to="." method="_on_comprar_5_button_up"]
+[connection signal="button_up" from="Comprar6" to="." method="_on_comprar_6_button_up"]

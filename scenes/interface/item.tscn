@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://c2pfuge8skjpu"]
+
+[ext_resource type="Texture2D" uid="uid://nw4q3v88hayh" path="res://assets/interface/loja/item.png" id="1_f2pe2"]
+[ext_resource type="Script" uid="uid://b1wtn8fhdtb0s" path="res://scripts/interface/item.gd" id="1_yrsks"]
+
+[node name="Scene" type="Node2D"]
+script = ExtResource("1_yrsks")
+
+[node name="Background" type="TextureRect" parent="."]
+offset_right = 972.0
+offset_bottom = 2127.0
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("1_f2pe2")
+
+[node name="Voltar" type="Button" parent="."]
+offset_left = 5.0
+offset_top = 762.0
+offset_right = 85.0
+offset_bottom = 837.0
+flat = true
+
+[connection signal="button_up" from="Voltar" to="." method="_on_voltar_button_up"]

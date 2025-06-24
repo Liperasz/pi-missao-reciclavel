@@ -1,0 +1,47 @@
+[gd_scene load_steps=3 format=3 uid="uid://lhdxexjl6t0t"]
+
+[ext_resource type="Texture2D" uid="uid://dxt4863ushrf8" path="res://assets/interface/tela_inicial.png" id="1_pjwve"]
+[ext_resource type="Script" uid="uid://x600wvrs8vi0" path="res://scripts/interface/tela_inicial.gd" id="1_uuhwf"]
+
+[node name="Scene" type="Node2D"]
+script = ExtResource("1_uuhwf")
+
+[node name="Background" type="TextureRect" parent="."]
+offset_right = 972.0
+offset_bottom = 2127.0
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("1_pjwve")
+
+[node name="Jogar" type="Button" parent="."]
+offset_left = 49.0
+offset_top = 271.0
+offset_right = 343.0
+offset_bottom = 351.0
+action_mode = 0
+flat = true
+
+[node name="Missoes" type="Button" parent="."]
+offset_left = 45.0
+offset_top = 369.0
+offset_right = 342.0
+offset_bottom = 454.0
+flat = true
+
+[node name="Loja" type="Button" parent="."]
+offset_left = 46.0
+offset_top = 467.0
+offset_right = 343.0
+offset_bottom = 552.0
+flat = true
+
+[node name="Configuracoes" type="Button" parent="."]
+offset_left = 48.0
+offset_top = 563.0
+offset_right = 345.0
+offset_bottom = 648.0
+flat = true
+
+[connection signal="button_up" from="Jogar" to="." method="_on_jogar_button_up"]
+[connection signal="button_up" from="Missoes" to="." method="_on_missoes_button_up"]
+[connection signal="button_up" from="Loja" to="." method="_on_loja_button_up"]
+[connection signal="button_up" from="Configuracoes" to="." method="_on_configuracoes_button_up"]

@@ -1,0 +1,30 @@
+[gd_scene load_steps=3 format=3 uid="uid://dq0sdhlboscu3"]
+
+[ext_resource type="Texture2D" uid="uid://blo7e7vgd2qlh" path="res://assets/interface/fase.png" id="1_enceb"]
+[ext_resource type="Script" uid="uid://k24fkmjvl10" path="res://scripts/interface/fase.gd" id="1_yngrd"]
+
+[node name="Scene" type="Node2D"]
+script = ExtResource("1_yngrd")
+
+[node name="Background" type="TextureRect" parent="."]
+offset_right = 972.0
+offset_bottom = 2127.0
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("1_enceb")
+
+[node name="Jogar" type="Button" parent="."]
+offset_left = 47.0
+offset_top = 637.0
+offset_right = 341.0
+offset_bottom = 731.0
+flat = true
+
+[node name="Voltar" type="Button" parent="."]
+offset_left = 15.0
+offset_top = 769.0
+offset_right = 73.0
+offset_bottom = 828.0
+flat = true
+
+[connection signal="button_up" from="Jogar" to="." method="_on_jogar_button_up"]
+[connection signal="button_up" from="Voltar" to="." method="_on_voltar_button_up"]

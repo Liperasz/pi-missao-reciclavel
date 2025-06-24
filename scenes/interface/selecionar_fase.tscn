@@ -1,0 +1,70 @@
+[gd_scene load_steps=3 format=3 uid="uid://do333y0y66jnx"]
+
+[ext_resource type="Script" uid="uid://u57edqwsqvbj" path="res://scripts/interface/selecionar_fase.gd" id="1_dn6bb"]
+[ext_resource type="Texture2D" uid="uid://8rhnxufkqpq0" path="res://assets/interface/selecionar_fase.png" id="1_fnfnd"]
+
+[node name="Scene" type="Node2D"]
+script = ExtResource("1_dn6bb")
+
+[node name="Background" type="TextureRect" parent="."]
+offset_right = 972.0
+offset_bottom = 2127.0
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("1_fnfnd")
+
+[node name="Voltar" type="Button" parent="."]
+offset_left = 12.0
+offset_top = 767.0
+offset_right = 79.0
+offset_bottom = 835.0
+flat = true
+
+[node name="Fase1" type="Button" parent="."]
+offset_left = 22.0
+offset_top = 511.0
+offset_right = 182.0
+offset_bottom = 669.0
+flat = true
+
+[node name="Fase2" type="Button" parent="."]
+offset_left = 205.0
+offset_top = 514.0
+offset_right = 365.0
+offset_bottom = 672.0
+flat = true
+
+[node name="Fase3" type="Button" parent="."]
+offset_left = 22.0
+offset_top = 323.0
+offset_right = 182.0
+offset_bottom = 481.0
+flat = true
+
+[node name="Fase4" type="Button" parent="."]
+offset_left = 204.0
+offset_top = 323.0
+offset_right = 364.0
+offset_bottom = 481.0
+flat = true
+
+[node name="Fase5" type="Button" parent="."]
+offset_left = 23.0
+offset_top = 131.0
+offset_right = 183.0
+offset_bottom = 289.0
+flat = true
+
+[node name="Fase6" type="Button" parent="."]
+offset_left = 205.0
+offset_top = 132.0
+offset_right = 365.0
+offset_bottom = 290.0
+flat = true
+
+[connection signal="button_up" from="Voltar" to="." method="_on_voltar_button_up"]
+[connection signal="button_up" from="Fase1" to="." method="_on_fase_1_button_up"]
+[connection signal="button_up" from="Fase2" to="." method="_on_fase_2_button_up"]
+[connection signal="button_up" from="Fase3" to="." method="_on_fase_3_button_up"]
+[connection signal="button_up" from="Fase4" to="." method="_on_fase_4_button_up"]
+[connection signal="button_up" from="Fase5" to="." method="_on_fase_5_button_up"]
+[connection signal="button_up" from="Fase6" to="." method="_on_fase_6_button_up"]
