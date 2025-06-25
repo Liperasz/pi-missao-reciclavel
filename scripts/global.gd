@@ -1,4 +1,5 @@
 extends Node2D
+var item_selecionado: int = 0
 
 var is_dragging = false
 var player_level = 1
@@ -6,6 +7,13 @@ var player_level = 1
 var vidas : int = 5
 var qtd_vida : int = vidas
 
+var poderes = {
+	1: {"nome": "add_vida", "quantidade": 0},
+	2: {"nome": "limpador_rapido", "quantidade": 0},
+	3: {"nome": "dupla_pontuacao", "quantidade": 0},
+	4: {"nome": "pausa_temporal", "quantidade": 0},
+	5: {"nome": "super_ima", "quantidade": 0},
+}
 # Variaveis para dicas
 var erros = 0
 var erros_consecutivos = 0
@@ -13,7 +21,7 @@ var erros_consecutivos = 0
 #sistema de pontuação inicio
 #variaves inicializadas
 var fases_completas = {}  
-var saldo_estrelas = 0
+var saldo_estrelas = 100
 
 # Caminho para salvar o progresso
 const SAVE_FILE_PATH = "user://progresso_jogador.save"

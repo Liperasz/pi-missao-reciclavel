@@ -13,10 +13,27 @@ scale = Vector2(0.4, 0.4)
 texture = ExtResource("1_f2pe2")
 
 [node name="Voltar" type="Button" parent="."]
-offset_left = 5.0
+offset_left = 11.0
 offset_top = 762.0
-offset_right = 85.0
+offset_right = 91.0
 offset_bottom = 837.0
 flat = true
+
+[node name="ItemImage" type="TextureRect" parent="."]
+offset_left = 94.0
+offset_top = 88.0
+offset_right = 297.0
+offset_bottom = 305.0
+expand_mode = 2
+stretch_mode = 4
+
+[node name="ItemDescricao" type="Label" parent="."]
+offset_left = 45.0
+offset_top = 358.0
+offset_right = 350.0
+offset_bottom = 519.0
+text = "zvzxcvzxcv"
+autowrap_mode = 2
+clip_text = true
 
 [connection signal="button_up" from="Voltar" to="." method="_on_voltar_button_up"]
