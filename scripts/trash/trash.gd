@@ -34,10 +34,12 @@ func _process(delta: float) -> void:
 			if is_inside_dropable:
 				if self.type == body_ref.type.to_lower():
 					global.erros_consecutivos = 0  # Reset após acerto
+					global.acertos_pontuacao += 1
 					emit_signal("is_on_right_bin", self)
 				else:
 					global.erros += 1
 					global.erros_consecutivos += 1
+					global.erros_pontuacao +=1
 					print("Lixeira Errada")
 					global.qtd_vida -= 1
 

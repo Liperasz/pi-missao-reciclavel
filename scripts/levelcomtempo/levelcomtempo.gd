@@ -32,6 +32,8 @@ var types_in_level = []
 
 var recycle_bin_scene = preload("res://scenes/recycle_bin/recycle_bin.tscn")
 var trash_scene = preload("res://scenes/trash/trash.tscn")
+var pontuacao_scene = preload("res://scenes/interface/pontuacao.tscn")
+var score_scene = preload("res://scenes/interface/score_screen.tscn")
 
 @onready var recycle_bin_quant: int
 var destroyed_trash = 0
@@ -107,10 +109,6 @@ func create_recycle_bins() -> void:
 		recyble_bin_container.add_child(recycle_bin)
 
 func create_trash():
-	if tempo_em_segundos == 0:
-		print("Fase completada")
-		return
-	
 	var random_type = types_in_level.pick_random()
 	var trash = trash_scene.instantiate()
 	trash.type = random_type
@@ -124,14 +122,28 @@ func on_trash_dropped(trash):
 	destroyed_trash += 1 
 	trash.queue_free()
 	
-	if tempo_em_segundos == 0:
-		print("Acabou a fase")		
-		#apenas teste
-		global.player_level += 1
-		get_tree().reload_current_scene()
-		tempo_em_segundos = 60
-		
-		return
-		
+	if tempo_em_segundos == 0:	
+		finalizou_a_fase()
+
 	else:
 		create_trash()
+
+func zerar_variaveis_globais():
+	global.acertos_pontuacao = 0
+	global.erros_pontuacao = 0
+	global.estrelas = 0
+	global.pontos = 0
+
+func finalizou_a_fase():
+	print("Acabou a fase")
+	print("Acertos", global.acertos_pontuacao)
+	print("Erros", global.erros_pontuacao)
+	var pontuacao = pontuacao_scene.instantiate()
+	add_child(pontuacao)
+	await pontuacao.fechar_tela_pontuacao
+	var score = score_scene.instantiate()
+	add_child(score)
+	await score.fechar
+	zerar_variaveis_globais()
+	get_tree().reload_current_scene()
+	
