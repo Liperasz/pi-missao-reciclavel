@@ -38,28 +38,28 @@ func _on_comprar_1_button_up() -> void:
 func _on_comprar_2_button_up() -> void:
 	if global.saldo_estrelas >= 3:
 		global.saldo_estrelas -= 3
-		global.poderes[1]["quantidade"] += 1
+		global.poderes[2]["quantidade"] += 1
 		atualizar_display_estrelas()
 	else:
 		print("Sem estrelas suficiente :(")
 func _on_comprar_3_button_up() -> void:
 	if global.saldo_estrelas >= 4:
 		global.saldo_estrelas -= 4
-		global.poderes[1]["quantidade"] += 1
+		global.poderes[3]["quantidade"] += 1
 		atualizar_display_estrelas()
 	else:
 		print("Sem estrelas suficiente :(")
 func _on_comprar_4_button_up() -> void:
 	if global.saldo_estrelas >= 2:
 		global.saldo_estrelas -= 2
-		global.poderes[1]["quantidade"] += 1
+		global.poderes[4]["quantidade"] += 1
 		atualizar_display_estrelas()
 	else:
 		print("Sem estrelas suficiente :(")
 func _on_comprar_5_button_up() -> void:
 	if global.saldo_estrelas >= 6:
 		global.saldo_estrelas -= 6
-		global.poderes[1]["quantidade"] += 1
+		global.poderes[5]["quantidade"] += 1
 		atualizar_display_estrelas()
 	else:
 		print("Sem estrelas suficiente :(")

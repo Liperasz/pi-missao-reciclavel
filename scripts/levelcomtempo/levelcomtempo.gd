@@ -4,7 +4,7 @@ extends Node2D
 @onready var trash_container: Node2D = get_node("Trash")
 @onready var background: TextureRect = get_node("Background")
 @onready var label_tempo: Label = get_node("LabelTempo")
-@onready var cronometro: Timer = get_node("Timer")
+@onready var cronometro: Timer = get_node("%Timer_do_jogo")
 
 var tempo_em_segundos: int = 60
 
@@ -36,7 +36,6 @@ var pontuacao_scene = preload("res://scenes/interface/pontuacao.tscn")
 var score_scene = preload("res://scenes/interface/score_screen.tscn")
 
 @onready var recycle_bin_quant: int
-var destroyed_trash = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -119,7 +118,6 @@ func create_trash():
 	trash.connect("is_on_right_bin", Callable(self, "on_trash_dropped"))
 
 func on_trash_dropped(trash):
-	destroyed_trash += 1 
 	trash.queue_free()
 	
 	if tempo_em_segundos == 0:	
@@ -147,3 +145,28 @@ func finalizou_a_fase():
 	zerar_variaveis_globais()
 	get_tree().reload_current_scene()
 	
+func limpar_lixo_poder():
+	for child in trash_container.get_children():
+		print("Filho encontrado:", child.name, "Tipo:", child)
+	if trash_container.get_child_count() > 0:
+		for child in trash_container.get_children():
+			if child is Trash:
+				print("Limpou um lixo:", child.name)
+				child.queue_free()
+				global.acertos_pontuacao += 1
+				break
+	if tempo_em_segundos != 0:
+		create_trash()
+	
+func super_ima_poder():
+	if trash_container.get_child_count() > 0:
+		for child in trash_container.get_children():
+			if child is Trash and child.type == "metal":
+				print("Limpou um lixo:", child.name)
+				child.queue_free()
+				global.acertos_pontuacao += 1
+				if tempo_em_segundos != 0:
+					create_trash()
+				break
+	
+		

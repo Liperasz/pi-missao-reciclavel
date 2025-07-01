@@ -1,4 +1,5 @@
 extends Node2D
+class_name Trash
 
 @onready var sprite: Sprite2D = get_node("Texture")
 

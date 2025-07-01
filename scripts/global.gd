@@ -8,11 +8,11 @@ var vidas : int = 5
 var qtd_vida : int = vidas
 
 var poderes = {
-	1: {"nome": "add_vida", "quantidade": 0},
-	2: {"nome": "limpador_rapido", "quantidade": 0},
-	3: {"nome": "dupla_pontuacao", "quantidade": 0},
-	4: {"nome": "pausa_temporal", "quantidade": 0},
-	5: {"nome": "super_ima", "quantidade": 0},
+	1: {"nome": "add_vida", "quantidade": 2},
+	2: {"nome": "limpador_rapido", "quantidade": 2},
+	3: {"nome": "dupla_pontuacao", "quantidade": 2},
+	4: {"nome": "pausa_temporal", "quantidade": 2},
+	5: {"nome": "super_ima", "quantidade": 2},
 }
 # Variaveis para dicas
 var erros = 0
@@ -23,6 +23,7 @@ var erros_pontuacao = 0
 var acertos_pontuacao = 0
 var pontos = 0
 var estrelas = 0
+var multiplicador = 1
 #sistema de pontuação inicio
 #variaves inicializadas
 var fases_completas = {}  
