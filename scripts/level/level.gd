@@ -29,6 +29,8 @@ var types_in_level = []
 
 var recycle_bin_scene = preload("res://scenes/recycle_bin/recycle_bin.tscn")
 var trash_scene = preload("res://scenes/trash/trash.tscn")
+var pontuacao_scene = preload("res://scenes/interface/pontuacao.tscn")
+var score_scene = preload("res://scenes/interface/score_screen.tscn")
 
 @onready var trash_quant: int
 @onready var recycle_bin_quant: int
@@ -56,7 +58,7 @@ func atualizar_label():
 	label_vida.text =  "VIDA: " + str("%02d" % [global.qtd_vida])
 	if global.qtd_vida <= 0:
 		global.qtd_vida = global.vidas
-		get_tree().reload_current_scene()
+		finalizou_a_fase()
 	
 func choose_trash_types() -> void:
 	types_in_level = trash_types
@@ -119,15 +121,27 @@ func on_trash_dropped(trash):
 	destroyed_trash += 1
 	trash.queue_free()
 	
-	if destroyed_trash >= trash_quant:
-		print("Acabou a fase")
-		
-		#apenas teste
-		global.player_level += 1
-		get_tree().reload_current_scene()
-		
-		
-		return
+	if destroyed_trash >= trash_quant:	
+		finalizou_a_fase()
 		
 	else:
 		create_trash()
+		
+func zerar_variaveis_globais():
+	global.acertos_pontuacao = 0
+	global.erros_pontuacao = 0
+	global.estrelas = 0
+	global.pontos = 0
+
+func finalizou_a_fase():
+	print("Acabou a fase")
+	print("Acertos", global.acertos_pontuacao)
+	print("Erros", global.erros_pontuacao)
+	var pontuacao = pontuacao_scene.instantiate()
+	add_child(pontuacao)
+	await pontuacao.fechar_tela_pontuacao
+	var score = score_scene.instantiate()
+	add_child(score)
+	await score.fechar
+	zerar_variaveis_globais()
+	get_tree().reload_current_scene()

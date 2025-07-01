@@ -1,33 +1,30 @@
-extends Control
+extends Node2D
+
+signal fechar
 
 func _ready():
-	
-	var pontos = Pontuacao.calcular_pontuacao()
-	var estrelas = Pontuacao.calcular_estrelas(pontos)
 
 	# Atualiza os elementos da tela
-	$LabelPontuacao.text = "Pontuação: " + str(pontos)
+	$LabelPontuacao.text = "Pontuação: " + str(global.pontos)
 
 #mensagem conforme seu desenvolvimento
-	if estrelas == 3:
+	if global.estrelas == 3:
 		$LabelFeedback.text = "Perfeito!"
-	elif estrelas == 2:
+	elif global.estrelas == 2:
 		$LabelFeedback.text = "Muito bom!"
-	elif estrelas == 1:
+	elif global.estrelas == 1:
 		$LabelFeedback.text = "Você conseguiu!"
 	else:
 		$LabelFeedback.text = "Tente novamente"
 
 	# Texto do botão (LabelButton está dentro do TextureButton)
-	if estrelas >= 1:
+	if global.estrelas >= 1:
 		$TextureButton/LabelButton.text = "Próxima fase"
+		global.player_level += 1
 	else:
 		$TextureButton/LabelButton.text = "Repetir fase"
 
-#ve se passou de fase ou nao
-func _on_TextureButton_pressed():
-	if Pontuacao.calcular_estrelas(Pontuacao.calcular_pontuacao()) >= 1:
-		
-		get_tree().change_scene_to_file("res://scenes/fases/Fase2.tscn")
-	else:
-		get_tree().reload_current_scene()
+
+func _on_texture_button_button_up() -> void:
+	emit_signal("fechar")
+	queue_free()

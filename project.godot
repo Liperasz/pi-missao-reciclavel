@@ -21,7 +21,7 @@ global="*res://scripts/global.gd"
 [display]
 
 window/size/mode=2
-window/stretch/scale=0.8
+window/stretch/scale=0.6
 
 [global_group]
 

@@ -18,6 +18,11 @@ var poderes = {
 var erros = 0
 var erros_consecutivos = 0
 
+# Variaveis para controle de pontuacao
+var erros_pontuacao = 0
+var acertos_pontuacao = 0
+var pontos = 0
+var estrelas = 0
 #sistema de pontuação inicio
 #variaves inicializadas
 var fases_completas = {}  
