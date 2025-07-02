@@ -1,0 +1,92 @@
+[gd_scene load_steps=6 format=3 uid="uid://c3hnv30m52if5"]
+
+[ext_resource type="Script" uid="uid://d2flmtohre6eh" path="res://scripts/inventario/inventario_vidas.gd" id="1_2dylk"]
+[ext_resource type="Texture2D" uid="uid://bvqtjvksq0k2w" path="res://assets/powers/limpador_rapido.png" id="1_op8e8"]
+[ext_resource type="Texture2D" uid="uid://b8e01ygqr6wrj" path="res://assets/powers/dupla_pontuacao.png" id="2_2dylk"]
+[ext_resource type="Texture2D" uid="uid://ccwphrsmlk1ad" path="res://assets/powers/add_vida.png" id="4_caogu"]
+[ext_resource type="Texture2D" uid="uid://maf1jmguyndf" path="res://assets/powers/super_ima.png" id="4_mo8m3"]
+
+[node name="inventario_level_com_vidas" type="Node2D"]
+script = ExtResource("1_2dylk")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_top = 82.0
+offset_right = 83.0
+offset_bottom = 473.0
+color = Color(0.133196, 0.133196, 0.133196, 0.470588)
+
+[node name="limpador_rapido" type="Button" parent="."]
+offset_left = 5.0
+offset_top = 57.0
+offset_right = 1037.0
+offset_bottom = 1601.0
+scale = Vector2(0.07, 0.07)
+icon = ExtResource("1_op8e8")
+flat = true
+
+[node name="Label" type="Label" parent="limpador_rapido"]
+layout_mode = 0
+offset_left = 271.0
+offset_top = 1238.0
+offset_right = 800.0
+offset_bottom = 1851.0
+theme_override_font_sizes/font_size = 450
+text = "00"
+
+[node name="dupla_pontuacao" type="Button" parent="."]
+offset_left = 3.0
+offset_top = 181.0
+offset_right = 511.0
+offset_bottom = 689.0
+scale = Vector2(0.16, 0.16)
+icon = ExtResource("2_2dylk")
+flat = true
+
+[node name="Label" type="Label" parent="dupla_pontuacao"]
+layout_mode = 0
+offset_left = 138.0
+offset_top = 444.0
+offset_right = 369.0
+offset_bottom = 717.0
+theme_override_font_sizes/font_size = 200
+text = "00"
+
+[node name="add_vida" type="Button" parent="."]
+offset_top = 284.0
+offset_right = 508.0
+offset_bottom = 792.0
+scale = Vector2(0.16, 0.16)
+icon = ExtResource("4_caogu")
+flat = true
+
+[node name="Label" type="Label" parent="add_vida"]
+layout_mode = 0
+offset_left = 131.0
+offset_top = 425.0
+offset_right = 375.0
+offset_bottom = 698.0
+theme_override_font_sizes/font_size = 200
+text = "00"
+
+[node name="super_ima" type="Button" parent="."]
+offset_left = 2.0
+offset_top = 374.0
+offset_right = 510.0
+offset_bottom = 882.0
+scale = Vector2(0.16, 0.16)
+icon = ExtResource("4_mo8m3")
+flat = true
+
+[node name="Label" type="Label" parent="super_ima"]
+layout_mode = 0
+offset_left = 131.0
+offset_top = 425.0
+offset_right = 413.0
+offset_bottom = 698.0
+theme_override_font_sizes/font_size = 200
+text = "00"
+
+[connection signal="button_up" from="limpador_rapido" to="." method="_on_limpador_rapido_button_up"]
+[connection signal="button_up" from="dupla_pontuacao" to="." method="_on_dupla_pontuacao_button_up"]
+[connection signal="button_up" from="add_vida" to="." method="_on_add_vida_button_up"]
+[connection signal="button_up" from="super_ima" to="." method="_on_super_ima_button_up"]
