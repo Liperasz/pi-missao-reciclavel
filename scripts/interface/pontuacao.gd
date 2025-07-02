@@ -38,7 +38,7 @@ func finalizar_fase():
 	print("estrelas depois ", global.estrelas)
 	nome_fase = "Fase " + str(global.player_level) 
 	global.atualizar_fase(nome_fase, global.estrelas)
-	global.multiplicador = 0
+	global.multiplicador = 1
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

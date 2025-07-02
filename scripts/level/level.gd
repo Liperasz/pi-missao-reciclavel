@@ -114,6 +114,8 @@ func create_trash():
 	trash.scenario = scenario
 	trash.position = Vector2(195, 800)
 	trash_container.add_child(trash)
+	print("Adicionado à cena:", trash.name)
+
 	
 	trash.connect("is_on_right_bin", Callable(self, "on_trash_dropped"))
 
@@ -122,6 +124,8 @@ func on_trash_dropped(trash):
 	trash.queue_free()
 	
 	if destroyed_trash >= trash_quant:	
+		print("destroyed_trash ", destroyed_trash)
+		print(" trash_quan ", trash_quant)
 		finalizou_a_fase()
 		
 	else:
@@ -134,7 +138,7 @@ func zerar_variaveis_globais():
 	global.pontos = 0
 
 func finalizou_a_fase():
-	print("Acabou a fase")
+	print("Acabou a fase", global.player_level)
 	print("Acertos", global.acertos_pontuacao)
 	print("Erros", global.erros_pontuacao)
 	var pontuacao = pontuacao_scene.instantiate()
@@ -145,3 +149,36 @@ func finalizou_a_fase():
 	await score.fechar
 	zerar_variaveis_globais()
 	get_tree().reload_current_scene()
+
+func limpar_lixo_poder():
+	for child in trash_container.get_children():
+		print("Filho encontrado:", child.name, "Tipo:", child)
+	if trash_container.get_child_count() > 0:
+		for child in trash_container.get_children():
+			if child is Trash:
+				print("Limpou um lixo:", child.name)
+				child.queue_free()
+				await get_tree().create_timer(0.05)
+				destroyed_trash += 1
+				global.acertos_pontuacao += 1
+				print("destroyed_trash ", destroyed_trash)
+				print(" trash_quan ", trash_quant)
+				if destroyed_trash <= trash_quant:	
+					create_trash()
+				break
+				
+func super_ima_poder():
+	if trash_container.get_child_count() > 0:
+		for child in trash_container.get_children():
+			if child is Trash and child.type == "metal":
+				print("Limpou um lixo:", child.name)
+				child.queue_free()
+				await get_tree().create_timer(0.05)
+				destroyed_trash += 1
+				global.acertos_pontuacao += 1
+				print("destroyed_trash ", destroyed_trash)
+				print(" trash_quan ", trash_quant)
+				if destroyed_trash <= trash_quant:	
+					create_trash()
+				break
+	
