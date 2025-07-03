@@ -4,6 +4,7 @@ var item_selecionado: int = 0
 var is_dragging = false
 var player_level = 1
 
+var missao_diaria = false
 var vidas : int = 5
 var qtd_vida : int = vidas
 

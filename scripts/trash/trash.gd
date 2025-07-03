@@ -55,7 +55,7 @@ func _process(delta: float) -> void:
 func load_sprite() -> void:
 	var folder_path = "res://assets/trash/%s" % scenario
 	var dir = DirAccess.open(folder_path)
-
+	
 	if dir == null:
 		push_error("Pasta não encontrada: " + folder_path)
 		return
@@ -83,7 +83,8 @@ func load_sprite() -> void:
 		sprite.texture = texture
 	else:
 		push_error("Imagem não encontrada: " + folder_path + "/" + random_trash)
-
+	#print("📂 Pasta:", folder_path)
+	#print("🔍 Tipo:", type)
 func _on_area_body_entered(body: Node2D) -> void:
 	if body.is_in_group("dropable"):
 		is_inside_dropable = true
