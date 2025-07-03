@@ -26,4 +26,5 @@ func _process(delta: float) -> void:
 
 
 func _on_voltar_button_up() -> void:
+	global.som_click()
 	get_tree().change_scene_to_file("res://scenes/interface/loja.tscn")

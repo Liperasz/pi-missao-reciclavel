@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://cnc4xauow37rf"
-path="res://.godot/imported/ArrastaMetal.wav-8d84c18147b7416d8174846960856be4.sample"
+path="res://.godot/imported/Arrasta_metal.wav-ff709b4f8c934e020eb9aa42612454c9.sample"
 
 [deps]
 
-source_file="res://assets/song/ArrastaMetal.wav"
-dest_files=["res://.godot/imported/ArrastaMetal.wav-8d84c18147b7416d8174846960856be4.sample"]
+source_file="res://assets/song/Arrasta_metal.wav"
+dest_files=["res://.godot/imported/Arrasta_metal.wav-ff709b4f8c934e020eb9aa42612454c9.sample"]
 
 [params]
 

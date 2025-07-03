@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://ddrnbkx5g26kg"
-path="res://.godot/imported/ArrastaPapel.wav-7528a4dd11497c980c61f12cadbd861d.sample"
+path="res://.godot/imported/Arrasta_papel.wav-1274ea6c7c410eb5537e913e4a3aac46.sample"
 
 [deps]
 
-source_file="res://assets/song/ArrastaPapel.wav"
-dest_files=["res://.godot/imported/ArrastaPapel.wav-7528a4dd11497c980c61f12cadbd861d.sample"]
+source_file="res://assets/song/Arrasta_papel.wav"
+dest_files=["res://.godot/imported/Arrasta_papel.wav-1274ea6c7c410eb5537e913e4a3aac46.sample"]
 
 [params]
 
