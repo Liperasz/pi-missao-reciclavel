@@ -30,6 +30,8 @@ var multiplicador = 1
 var fases_completas = {}  
 var saldo_estrelas = 100
 
+#variaveis para escolher modo de jogo:
+var modo_tempo = false
 # Caminho para salvar o progresso
 const SAVE_FILE_PATH = "user://progresso_jogador.save"
 
