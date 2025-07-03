@@ -106,6 +106,7 @@ func create_recycle_bins() -> void:
 func create_trash():
 	if destroyed_trash >= trash_quant:
 		print("Fase completada")
+		finalizou_a_fase()
 		return
 	
 	var random_type = types_in_level.pick_random()
@@ -115,6 +116,9 @@ func create_trash():
 	trash.position = Vector2(195, 800)
 	trash_container.add_child(trash)
 	print("Adicionado à cena:", trash.name)
+	print("Trash container tem %d filhos" % trash_container.get_child_count())
+	for child in trash_container.get_children():
+		print("Filho:", child.name, "Posição:", child.position, "Visível:", child.visible)
 
 	
 	trash.connect("is_on_right_bin", Callable(self, "on_trash_dropped"))
@@ -149,10 +153,13 @@ func finalizou_a_fase():
 	await score.fechar
 	zerar_variaveis_globais()
 	get_tree().reload_current_scene()
+	if global.missao_diaria == true:
+		global.missao_diaria = false
+		get_tree().change_scene_to_file("res://scenes/interface/tela_inicial.tscn")
 
 func limpar_lixo_poder():
-	for child in trash_container.get_children():
-		print("Filho encontrado:", child.name, "Tipo:", child)
+	#for child in trash_container.get_children():
+		#print("Filho encontrado:", child.name, "Tipo:", child)
 	if trash_container.get_child_count() > 0:
 		for child in trash_container.get_children():
 			if child is Trash:
@@ -161,9 +168,11 @@ func limpar_lixo_poder():
 				await get_tree().create_timer(0.05)
 				destroyed_trash += 1
 				global.acertos_pontuacao += 1
-				print("destroyed_trash ", destroyed_trash)
-				print(" trash_quan ", trash_quant)
-				if destroyed_trash <= trash_quant:	
+				if destroyed_trash >= trash_quant:
+					#print("destroyed_trash ", destroyed_trash)
+					#print(" trash_quan ", trash_quant)
+					finalizou_a_fase()
+				else:
 					create_trash()
 				break
 				
@@ -171,14 +180,16 @@ func super_ima_poder():
 	if trash_container.get_child_count() > 0:
 		for child in trash_container.get_children():
 			if child is Trash and child.type == "metal":
-				print("Limpou um lixo:", child.name)
+				#print("Limpou um lixo:", child.name)
 				child.queue_free()
 				await get_tree().create_timer(0.05)
 				destroyed_trash += 1
 				global.acertos_pontuacao += 1
-				print("destroyed_trash ", destroyed_trash)
-				print(" trash_quan ", trash_quant)
-				if destroyed_trash <= trash_quant:	
+				if destroyed_trash >= trash_quant:
+					#print("destroyed_trash ", destroyed_trash)
+					#print(" trash_quan ", trash_quant)
+					finalizou_a_fase()
+				else:
 					create_trash()
 				break
 	

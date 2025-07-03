@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cmaip77hc88pg"
-path="res://.godot/imported/caixa_paple.png-c78757dae499e0d9b2072097af63401f.ctex"
+path="res://.godot/imported/caixa_papel.png-7d3d6e08763a034afd36eeba132cc8c1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/trash/mercado/caixa_paple.png"
-dest_files=["res://.godot/imported/caixa_paple.png-c78757dae499e0d9b2072097af63401f.ctex"]
+source_file="res://assets/trash/mercado/caixa_papel.png"
+dest_files=["res://.godot/imported/caixa_papel.png-7d3d6e08763a034afd36eeba132cc8c1.ctex"]
 
 [params]
 

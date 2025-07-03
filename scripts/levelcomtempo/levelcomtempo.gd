@@ -144,6 +144,10 @@ func finalizou_a_fase():
 	await score.fechar
 	zerar_variaveis_globais()
 	get_tree().reload_current_scene()
+	if global.missao_diaria == true:
+		global.missao_diaria = false
+		get_tree().change_scene_to_file("res://scenes/interface/tela_inicial.tscn")
+		
 	
 func limpar_lixo_poder():
 	for child in trash_container.get_children():
