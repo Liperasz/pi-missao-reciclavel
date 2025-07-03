@@ -68,6 +68,7 @@ func update_mission_buttons_state():
 		print("As missões diárias já foram completadas hoje. Volte amanhã!")
 
 func _on_missao_1_button_up() -> void:
+	global.som_click()
 	if not has_mission_been_played_today():
 		global.player_level = 1
 		global.multiplicador = 2
@@ -80,6 +81,7 @@ func _on_missao_1_button_up() -> void:
 
 
 func _on_missao_2_button_up() -> void:
+	global.som_click()
 	if not has_mission_been_played_today():
 		global.player_level = 2
 		global.multiplicador = 2.5
@@ -92,6 +94,7 @@ func _on_missao_2_button_up() -> void:
 
 
 func _on_missao_3_button_up() -> void:
+	global.som_click()
 	if not has_mission_been_played_today():
 		global.player_level = 4
 		global.multiplicador = 3
@@ -104,6 +107,7 @@ func _on_missao_3_button_up() -> void:
 
 
 func _on_voltar_button_up() -> void:
+	global.som_click()
 	get_tree().change_scene_to_file("res://scenes/interface/tela_inicial.tscn")
 
 func aleatorio():

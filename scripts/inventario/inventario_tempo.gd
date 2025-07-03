@@ -17,6 +17,7 @@ func exibe_quantidade_de_poderes() -> void:
 	$super_ima/Label.text = str(global.poderes[5]["quantidade"])
 	
 func _on_limpador_rapido_button_up() -> void:
+	global.som_Poder_Limpador()
 	if (global.poderes[2]["quantidade"] > 0):
 		global.poderes[2]["quantidade"] -= 1
 		level_tempo.limpar_lixo_poder()
@@ -24,11 +25,13 @@ func _on_limpador_rapido_button_up() -> void:
 
 
 func _on_dupla_pontuacao_button_up() -> void:
+	global.som_Poder_Dobrar_Ganho()
 	if (global.poderes[3]["quantidade"] > 0):
 		global.poderes[3]["quantidade"] -= 1
 		global.multiplicador += 1
 
 func _on_congela_tempo_button_up() -> void:
+	global.som_Poder_Tempo()
 	if (global.poderes[4]["quantidade"] > 0):
 		global.poderes[4]["quantidade"] -= 1
 		if not pausar.is_connected("timeout", Callable(self, "_on_cronometro_timeout")):
@@ -42,6 +45,7 @@ func _on_cronometro_timeout():
 	timer_principal.paused = false
 		
 func _on_super_ima_button_up() -> void:
+	global.som_Poder_Ima()
 	if (global.poderes[5]["quantidade"] > 0):
 		global.poderes[5]["quantidade"] -= 1
 		while(timer_principal.is_stopped() == false):

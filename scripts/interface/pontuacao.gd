@@ -45,6 +45,7 @@ func _ready() -> void:
 	finalizar_fase()
 	
 func _on_button_button_up() -> void:
+	global.som_click()
 	emit_signal("fechar_tela_pontuacao")
 	queue_free()
 	

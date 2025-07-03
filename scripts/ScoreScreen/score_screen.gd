@@ -19,12 +19,15 @@ func _ready():
 
 	# Texto do botão (LabelButton está dentro do TextureButton)
 	if global.estrelas >= 1:
+		global.som_Vitoria()
 		$TextureButton/LabelButton.text = "Próxima fase"
 		global.player_level += 1
 	else:
+		global.som_Game_over()
 		$TextureButton/LabelButton.text = "Repetir fase"
 
 
 func _on_texture_button_button_up() -> void:
+	global.som_click()
 	emit_signal("fechar")
 	queue_free()

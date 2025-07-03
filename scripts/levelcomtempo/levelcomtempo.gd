@@ -39,6 +39,7 @@ var score_scene = preload("res://scenes/interface/score_screen.tscn")
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	global.som_Entrada()
 	choose_scenario()
 	choose_trash_types()
 	create_recycle_bins()
@@ -118,6 +119,7 @@ func create_trash():
 	trash.connect("is_on_right_bin", Callable(self, "on_trash_dropped"))
 
 func on_trash_dropped(trash):
+	tocar_som(trash.type)
 	trash.queue_free()
 	
 	if tempo_em_segundos == 0:	
@@ -173,4 +175,17 @@ func super_ima_poder():
 					create_trash()
 				break
 	
-		
+func tocar_som(random_type):
+	var tocar = AudioStreamPlayer.new()
+	var audio_path = "res://assets/song/Arrasta_%s.wav" % random_type
+	var som = load(audio_path)
+	
+	if som == null:
+		push_error("Pasta não encontrada: " + audio_path)
+		return
+
+	tocar.stream = som
+	add_child(tocar) 
+	tocar.play()
+	await tocar.finished
+	tocar.queue_free()		
