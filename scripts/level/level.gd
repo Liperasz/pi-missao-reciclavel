@@ -38,6 +38,7 @@ var destroyed_trash = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	global.som_Entrada()
 	choose_scenario()
 	choose_trash_types()
 	create_recycle_bins()
@@ -106,6 +107,7 @@ func create_recycle_bins() -> void:
 func create_trash():
 	if destroyed_trash >= trash_quant:
 		print("Fase completada")
+		finalizou_a_fase()
 		return
 	
 	var random_type = types_in_level.pick_random()
@@ -114,14 +116,22 @@ func create_trash():
 	trash.scenario = scenario
 	trash.position = Vector2(195, 800)
 	trash_container.add_child(trash)
+	print("Adicionado à cena:", trash.name)
+	print("Trash container tem %d filhos" % trash_container.get_child_count())
+	for child in trash_container.get_children():
+		print("Filho:", child.name, "Posição:", child.position, "Visível:", child.visible)
+
 	
 	trash.connect("is_on_right_bin", Callable(self, "on_trash_dropped"))
 
 func on_trash_dropped(trash):
+	tocar_som(trash.type)
 	destroyed_trash += 1
 	trash.queue_free()
 	
 	if destroyed_trash >= trash_quant:	
+		print("destroyed_trash ", destroyed_trash)
+		print(" trash_quan ", trash_quant)
 		finalizou_a_fase()
 		
 	else:
@@ -134,7 +144,7 @@ func zerar_variaveis_globais():
 	global.pontos = 0
 
 func finalizou_a_fase():
-	print("Acabou a fase")
+	print("Acabou a fase", global.player_level)
 	print("Acertos", global.acertos_pontuacao)
 	print("Erros", global.erros_pontuacao)
 	var pontuacao = pontuacao_scene.instantiate()
@@ -144,4 +154,59 @@ func finalizou_a_fase():
 	add_child(score)
 	await score.fechar
 	zerar_variaveis_globais()
-	get_tree().reload_current_scene()
+	if global.missao_diaria == true:
+		global.missao_diaria = false
+		get_tree().change_scene_to_file("res://scenes/interface/tela_inicial.tscn")
+	else:
+		get_tree().reload_current_scene()
+		
+func limpar_lixo_poder():
+	#for child in trash_container.get_children():
+		#print("Filho encontrado:", child.name, "Tipo:", child)
+	if trash_container.get_child_count() > 0:
+		for child in trash_container.get_children():
+			if child is Trash:
+				print("Limpou um lixo:", child.name)
+				child.queue_free()
+				await get_tree().create_timer(0.05)
+				destroyed_trash += 1
+				global.acertos_pontuacao += 1
+				if destroyed_trash >= trash_quant:
+					#print("destroyed_trash ", destroyed_trash)
+					#print(" trash_quan ", trash_quant)
+					finalizou_a_fase()
+				else:
+					create_trash()
+				break
+				
+func super_ima_poder():
+	if trash_container.get_child_count() > 0:
+		for child in trash_container.get_children():
+			if child is Trash and child.type == "metal":
+				#print("Limpou um lixo:", child.name)
+				child.queue_free()
+				await get_tree().create_timer(0.05)
+				destroyed_trash += 1
+				global.acertos_pontuacao += 1
+				if destroyed_trash >= trash_quant:
+					#print("destroyed_trash ", destroyed_trash)
+					#print(" trash_quan ", trash_quant)
+					finalizou_a_fase()
+				else:
+					create_trash()
+				break
+	
+func tocar_som(random_type):
+	var tocar = AudioStreamPlayer.new()
+	var audio_path = "res://assets/song/Arrasta_%s.wav" % random_type
+	var som = load(audio_path)
+	
+	if som == null:
+		push_error("Pasta não encontrada: " + audio_path)
+		return
+
+	tocar.stream = som
+	add_child(tocar) 
+	tocar.play()
+	await tocar.finished
+	tocar.queue_free()

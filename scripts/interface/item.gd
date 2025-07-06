@@ -9,7 +9,7 @@ var itens = {
 	2: {"imagem": preload("res://assets/powers/limpador_rapido.png"), "descricao": "Permite ao jogador clicar em um item de sua escolha para reciclar."},
 	3: {"imagem": preload("res://assets/powers/dupla_pontuacao.png"), "descricao": "Ganha o dobro de estrelas na fase."},
 	4: {"imagem": preload("res://assets/powers/pausa_temporal.png"), "descricao": "Congela o tempo por 10 segundos."},
-	5: {"imagem": preload("res://assets/powers/super_ima.png"), "descricao": "Atrai os lixos automaticamente."},
+	5: {"imagem": preload("res://assets/powers/super_ima.png"), "descricao": "Atrai os lixos de metal automaticamente."},
 }
 
 # Called when the node enters the scene tree for the first time.
@@ -26,4 +26,5 @@ func _process(delta: float) -> void:
 
 
 func _on_voltar_button_up() -> void:
+	global.som_click()
 	get_tree().change_scene_to_file("res://scenes/interface/loja.tscn")

@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://c5exf7ufoyvw2"]
+[gd_scene load_steps=5 format=3 uid="uid://c5exf7ufoyvw2"]
 
 [ext_resource type="Script" uid="uid://if2mtxuonmc5" path="res://scripts/level/level.gd" id="1_nbgty"]
 [ext_resource type="PackedScene" uid="uid://dm0nv7mdhpm30" path="res://scenes/recycle_bin/recycle_bin.tscn" id="2_i166f"]
 [ext_resource type="PackedScene" uid="uid://cju2hkmd3d61g" path="res://scenes/trash/trash.tscn" id="3_i166f"]
+[ext_resource type="PackedScene" uid="uid://c3hnv30m52if5" path="res://scenes/inventario/inventario_level_com_vidas.tscn" id="4_qkmgm"]
 
 [node name="Scene" type="Node2D"]
 script = ExtResource("1_nbgty")
@@ -22,3 +23,5 @@ offset_top = 31.0
 offset_right = 250.0
 offset_bottom = 54.0
 text = "VIDA:"
+
+[node name="inventario_level_com_vidas" parent="." instance=ExtResource("4_qkmgm")]

@@ -1,0 +1,38 @@
+[gd_scene load_steps=3 format=3 uid="uid://c04740helhw8c"]
+
+[ext_resource type="Texture2D" uid="uid://blo7e7vgd2qlh" path="res://assets/interface/fase.png" id="1_ovx7y"]
+[ext_resource type="Script" uid="uid://bov60xttlcxlv" path="res://scripts/interface/escolher_modo.gd" id="1_yo0o0"]
+
+[node name="escolher_modo" type="Node2D"]
+script = ExtResource("1_yo0o0")
+
+[node name="Background" type="TextureRect" parent="."]
+offset_right = 972.0
+offset_bottom = 2127.0
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("1_ovx7y")
+
+[node name="levelcomtempo" type="Button" parent="."]
+offset_left = 50.0
+offset_top = 179.0
+offset_right = 344.0
+offset_bottom = 273.0
+text = "LEVEL COM TEMPO"
+
+[node name="levelcomvidas" type="Button" parent="."]
+offset_left = 50.0
+offset_top = 357.0
+offset_right = 344.0
+offset_bottom = 451.0
+text = "LEVEL COM VIDAS"
+
+[node name="Voltar" type="Button" parent="."]
+offset_left = 15.0
+offset_top = 769.0
+offset_right = 73.0
+offset_bottom = 828.0
+flat = true
+
+[connection signal="button_up" from="levelcomtempo" to="." method="_on_levelcomtempo_button_up"]
+[connection signal="button_up" from="levelcomvidas" to="." method="_on_levelcomvidas_button_up"]
+[connection signal="button_up" from="Voltar" to="." method="_on_voltar_button_up"]

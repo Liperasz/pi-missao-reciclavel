@@ -1,4 +1,5 @@
 extends Node2D
+class_name Trash
 
 @onready var sprite: Sprite2D = get_node("Texture")
 
@@ -33,10 +34,12 @@ func _process(delta: float) -> void:
 
 			if is_inside_dropable:
 				if self.type == body_ref.type.to_lower():
+					global.som_lixeira_correta()
 					global.erros_consecutivos = 0  # Reset após acerto
 					global.acertos_pontuacao += 1
 					emit_signal("is_on_right_bin", self)
 				else:
+					global.som_lixeira_errada()
 					global.erros += 1
 					global.erros_consecutivos += 1
 					global.erros_pontuacao +=1
@@ -54,7 +57,7 @@ func _process(delta: float) -> void:
 func load_sprite() -> void:
 	var folder_path = "res://assets/trash/%s" % scenario
 	var dir = DirAccess.open(folder_path)
-
+	
 	if dir == null:
 		push_error("Pasta não encontrada: " + folder_path)
 		return
@@ -82,7 +85,8 @@ func load_sprite() -> void:
 		sprite.texture = texture
 	else:
 		push_error("Imagem não encontrada: " + folder_path + "/" + random_trash)
-
+	#print("📂 Pasta:", folder_path)
+	#print("🔍 Tipo:", type)
 func _on_area_body_entered(body: Node2D) -> void:
 	if body.is_in_group("dropable"):
 		is_inside_dropable = true

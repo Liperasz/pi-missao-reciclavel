@@ -33,14 +33,19 @@ func finalizar_fase():
 	calcular_pontuacao()
 	atualizar_label()
 	global.estrelas = calcular_estrelas(global.pontos)
+	print("estrelas antes ", global.estrelas)
+	global.estrelas *= global.multiplicador
+	print("estrelas depois ", global.estrelas)
 	nome_fase = "Fase " + str(global.player_level) 
 	global.atualizar_fase(nome_fase, global.estrelas)
+	global.multiplicador = 1
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	finalizar_fase()
 	
 func _on_button_button_up() -> void:
+	global.som_click()
 	emit_signal("fechar_tela_pontuacao")
 	queue_free()
 	
