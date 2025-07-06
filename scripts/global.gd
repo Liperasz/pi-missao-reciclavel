@@ -4,15 +4,16 @@ var item_selecionado: int = 0
 var is_dragging = false
 var player_level = 1
 
+var missao_diaria = false
 var vidas : int = 5
 var qtd_vida : int = vidas
 
 var poderes = {
-	1: {"nome": "add_vida", "quantidade": 0},
-	2: {"nome": "limpador_rapido", "quantidade": 0},
-	3: {"nome": "dupla_pontuacao", "quantidade": 0},
-	4: {"nome": "pausa_temporal", "quantidade": 0},
-	5: {"nome": "super_ima", "quantidade": 0},
+	1: {"nome": "add_vida", "quantidade": 2},
+	2: {"nome": "limpador_rapido", "quantidade": 2},
+	3: {"nome": "dupla_pontuacao", "quantidade": 2},
+	4: {"nome": "pausa_temporal", "quantidade": 2},
+	5: {"nome": "super_ima", "quantidade": 2},
 }
 # Variaveis para dicas
 var erros = 0
@@ -23,11 +24,14 @@ var erros_pontuacao = 0
 var acertos_pontuacao = 0
 var pontos = 0
 var estrelas = 0
+var multiplicador = 1
 #sistema de pontuação inicio
 #variaves inicializadas
 var fases_completas = {}  
 var saldo_estrelas = 100
 
+#variaveis para escolher modo de jogo:
+var modo_tempo = false
 # Caminho para salvar o progresso
 const SAVE_FILE_PATH = "user://progresso_jogador.save"
 
@@ -73,3 +77,98 @@ func carregar_progresso():
 			fases_completas = dados.get("fases_completas", {})
 			saldo_estrelas = dados.get("saldo_estrelas", 0)
 			file.close()
+func som_lixeira_correta():	
+	var som = load("res://assets/song/LixeiraCorreta.wav")
+	if som == null:
+		push_error("Arquivo não encontrado! ")
+		return
+	else:
+		tocar_som(som)
+		
+func som_lixeira_errada():	
+	var som = load("res://assets/song/LixeiraErrada.wav")
+	if som == null:
+		push_error("Arquivo não encontrado! ")
+		return
+	else:
+		tocar_som(som)
+		
+func som_click():	
+	var som = load("res://assets/song/click.wav")
+	if som == null:
+		push_error("Arquivo não encontrado! ")
+		return
+	else:
+		tocar_som(som)		
+
+func som_Entrada():	
+	var som = load("res://assets/song/Entrada.wav")
+	if som == null:
+		push_error("Arquivo não encontrado! ")
+		return
+	else:
+		tocar_som(som)		
+
+func som_Game_over():	
+	var som = load("res://assets/song/GameOver.wav")
+	if som == null:
+		push_error("Arquivo não encontrado! ")
+		return
+	else:
+		tocar_som(som)		
+
+func som_Poder_Vida():	
+	var som = load("res://assets/song/PoderComprarVida.wav")
+	if som == null:
+		push_error("Arquivo não encontrado! ")
+		return
+	else:
+		tocar_som(som)		
+
+func som_Poder_Dobrar_Ganho():	
+	var som = load("res://assets/song/PoderDobrarGanho.wav")
+	if som == null:
+		push_error("Arquivo não encontrado! ")
+		return
+	else:
+		tocar_som(som)	
+
+func som_Poder_Ima():	
+	var som = load("res://assets/song/PoderImã.wav")
+	if som == null:
+		push_error("Arquivo não encontrado! ")
+		return
+	else:
+		tocar_som(som)	
+		
+func som_Poder_Limpador():	
+	var som = load("res://assets/song/PoderLimpador.wav")
+	if som == null:
+		push_error("Arquivo não encontrado! ")
+		return
+	else:
+		tocar_som(som)	
+
+func som_Poder_Tempo():	
+	var som = load("res://assets/song/PoderTempo.wav")
+	if som == null:
+		push_error("Arquivo não encontrado! ")
+		return
+	else:
+		tocar_som(som)	
+
+func som_Vitoria():	
+	var som = load("res://assets/song/Vitoria.wav")
+	if som == null:
+		push_error("Arquivo não encontrado! ")
+		return
+	else:
+		tocar_som(som)			
+					
+func tocar_som(som):
+	var tocar = AudioStreamPlayer.new()
+	tocar.stream = som
+	add_child(tocar) 
+	tocar.play()
+	tocar.connect("finished", Callable(tocar, "queue_free"))
+	
