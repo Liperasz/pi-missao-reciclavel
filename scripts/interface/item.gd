@@ -6,10 +6,10 @@ extends Node2D
 # Mapeia cada ID para imagem e descrição
 var itens = {
 	1: {"imagem": preload("res://assets/powers/add_vida.png"), "descricao": "Ganha uma vida extra."},
-	2: {"imagem": preload("res://assets/powers/limpador_rapido.png"), "descricao": "Permite ao jogador clicar em um item de sua escolha para reciclar."},
+	2: {"imagem": preload("res://assets/powers/limpador_rapido.png"), "descricao": "Permite ao jogador reciclar um item automaticamente."},
 	3: {"imagem": preload("res://assets/powers/dupla_pontuacao.png"), "descricao": "Ganha o dobro de estrelas na fase."},
 	4: {"imagem": preload("res://assets/powers/pausa_temporal.png"), "descricao": "Congela o tempo por 10 segundos."},
-	5: {"imagem": preload("res://assets/powers/super_ima.png"), "descricao": "Atrai os lixos de metal automaticamente."},
+	5: {"imagem": preload("res://assets/powers/super_ima.png"), "descricao": "Atrai os lixos de metal automaticamente durante a fase."},
 }
 
 # Called when the node enters the scene tree for the first time.

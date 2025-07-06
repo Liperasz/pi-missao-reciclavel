@@ -43,12 +43,13 @@ offset_left = 57.0
 offset_top = 600.0
 offset_right = 337.0
 offset_bottom = 666.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 flat = true
 
 [node name="LabelButton" type="Label" parent="TextureButton"]
 layout_mode = 0
 
-offset_left = 4.0
+offset_left = 74.0
 
 offset_top = -2.0
 offset_right = 268.0
