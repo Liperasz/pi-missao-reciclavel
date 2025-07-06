@@ -16,16 +16,19 @@ func exibe_quantidade_de_poderes() -> void:
 	
 func _on_limpador_rapido_button_up() -> void:
 	if (global.poderes[2]["quantidade"] > 0):
+		global.som_Poder_Limpador()
 		global.poderes[2]["quantidade"] -= 1
 		level_vida.limpar_lixo_poder()
 
 func _on_dupla_pontuacao_button_up() -> void:
 	if (global.poderes[3]["quantidade"] > 0):
+		global.som_Poder_Dobrar_Ganho()
 		global.poderes[3]["quantidade"] -= 1
 		global.multiplicador += 1
 
 func _on_super_ima_button_up() -> void:
 	if (global.poderes[5]["quantidade"] > 0):
+		global.som_Poder_Ima()
 		global.poderes[5]["quantidade"] -= 1
 		while(level_vida.destroyed_trash <= level_vida.trash_quant):
 			level_vida.super_ima_poder()
@@ -33,5 +36,6 @@ func _on_super_ima_button_up() -> void:
 
 func _on_add_vida_button_up() -> void:
 	if (global.poderes[1]["quantidade"] > 0):
+		global.som_Poder_Vida()
 		global.poderes[1]["quantidade"] -= 1
 		global.qtd_vida += 1

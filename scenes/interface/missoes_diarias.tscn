@@ -17,6 +17,7 @@ offset_left = 12.0
 offset_top = 161.0
 offset_right = 377.0
 offset_bottom = 324.0
+theme_override_font_sizes/font_size = 30
 text = "FÁCIL"
 flat = true
 
@@ -25,6 +26,7 @@ offset_left = 11.0
 offset_top = 345.0
 offset_right = 376.0
 offset_bottom = 508.0
+theme_override_font_sizes/font_size = 30
 text = "INTERMEDIÁRIO"
 flat = true
 
@@ -33,6 +35,7 @@ offset_left = 11.0
 offset_top = 521.0
 offset_right = 376.0
 offset_bottom = 684.0
+theme_override_font_sizes/font_size = 30
 text = "DIFÍCIL"
 flat = true
 

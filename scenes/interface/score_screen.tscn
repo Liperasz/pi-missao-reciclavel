@@ -14,10 +14,11 @@ scale = Vector2(0.4, 0.4)
 texture = ExtResource("2_68huu")
 
 [node name="Trofeu" type="TextureRect" parent="."]
-offset_left = 105.0
-offset_top = 80.0
-offset_right = 281.0
-offset_bottom = 237.0
+offset_left = 126.0
+offset_top = 54.0
+offset_right = 302.0
+offset_bottom = 211.0
+scale = Vector2(0.7, 0.7)
 texture = ExtResource("3_g3dih")
 
 [node name="LabelPontuacao" type="Label" parent="."]
@@ -29,12 +30,13 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 45
 
 [node name="LabelFeedback" type="Label" parent="."]
-offset_left = 134.0
-offset_top = 378.0
-offset_right = 249.0
-offset_bottom = 487.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 45
+offset_left = 4.0
+offset_top = 168.0
+offset_right = 386.0
+offset_bottom = 277.0
+theme_override_font_sizes/font_size = 40
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="TextureButton" type="Button" parent="."]
 offset_left = 57.0
@@ -46,15 +48,15 @@ flat = true
 
 [node name="LabelButton" type="Label" parent="TextureButton"]
 layout_mode = 0
-<<<<<<< Updated upstream
+
 offset_left = 74.0
-=======
-offset_left = 4.0
->>>>>>> Stashed changes
+
 offset_top = -2.0
-offset_right = 229.0
+offset_right = 268.0
 offset_bottom = 61.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 45
+theme_override_font_sizes/font_size = 30
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="button_up" from="TextureButton" to="." method="_on_texture_button_button_up"]

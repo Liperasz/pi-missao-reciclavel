@@ -77,3 +77,98 @@ func carregar_progresso():
 			fases_completas = dados.get("fases_completas", {})
 			saldo_estrelas = dados.get("saldo_estrelas", 0)
 			file.close()
+func som_lixeira_correta():	
+	var som = load("res://assets/song/LixeiraCorreta.wav")
+	if som == null:
+		push_error("Arquivo não encontrado! ")
+		return
+	else:
+		tocar_som(som)
+		
+func som_lixeira_errada():	
+	var som = load("res://assets/song/LixeiraErrada.wav")
+	if som == null:
+		push_error("Arquivo não encontrado! ")
+		return
+	else:
+		tocar_som(som)
+		
+func som_click():	
+	var som = load("res://assets/song/click.wav")
+	if som == null:
+		push_error("Arquivo não encontrado! ")
+		return
+	else:
+		tocar_som(som)		
+
+func som_Entrada():	
+	var som = load("res://assets/song/Entrada.wav")
+	if som == null:
+		push_error("Arquivo não encontrado! ")
+		return
+	else:
+		tocar_som(som)		
+
+func som_Game_over():	
+	var som = load("res://assets/song/GameOver.wav")
+	if som == null:
+		push_error("Arquivo não encontrado! ")
+		return
+	else:
+		tocar_som(som)		
+
+func som_Poder_Vida():	
+	var som = load("res://assets/song/PoderComprarVida.wav")
+	if som == null:
+		push_error("Arquivo não encontrado! ")
+		return
+	else:
+		tocar_som(som)		
+
+func som_Poder_Dobrar_Ganho():	
+	var som = load("res://assets/song/PoderDobrarGanho.wav")
+	if som == null:
+		push_error("Arquivo não encontrado! ")
+		return
+	else:
+		tocar_som(som)	
+
+func som_Poder_Ima():	
+	var som = load("res://assets/song/PoderImã.wav")
+	if som == null:
+		push_error("Arquivo não encontrado! ")
+		return
+	else:
+		tocar_som(som)	
+		
+func som_Poder_Limpador():	
+	var som = load("res://assets/song/PoderLimpador.wav")
+	if som == null:
+		push_error("Arquivo não encontrado! ")
+		return
+	else:
+		tocar_som(som)	
+
+func som_Poder_Tempo():	
+	var som = load("res://assets/song/PoderTempo.wav")
+	if som == null:
+		push_error("Arquivo não encontrado! ")
+		return
+	else:
+		tocar_som(som)	
+
+func som_Vitoria():	
+	var som = load("res://assets/song/Vitoria.wav")
+	if som == null:
+		push_error("Arquivo não encontrado! ")
+		return
+	else:
+		tocar_som(som)			
+					
+func tocar_som(som):
+	var tocar = AudioStreamPlayer.new()
+	tocar.stream = som
+	add_child(tocar) 
+	tocar.play()
+	tocar.connect("finished", Callable(tocar, "queue_free"))
+	

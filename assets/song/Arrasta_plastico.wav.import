@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://by1xbej0f44rn"
-path="res://.godot/imported/ArrastaPlastico.wav-f1fc4c48a99a9089d8d8bf7b83e9fa99.sample"
+path="res://.godot/imported/Arrasta_plastico.wav-88d5c5287bfc316d7e589f9f1132f61b.sample"
 
 [deps]
 
-source_file="res://assets/song/ArrastaPlastico.wav"
-dest_files=["res://.godot/imported/ArrastaPlastico.wav-f1fc4c48a99a9089d8d8bf7b83e9fa99.sample"]
+source_file="res://assets/song/Arrasta_plastico.wav"
+dest_files=["res://.godot/imported/Arrasta_plastico.wav-88d5c5287bfc316d7e589f9f1132f61b.sample"]
 
 [params]
 

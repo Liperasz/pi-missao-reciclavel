@@ -56,3 +56,4 @@ uppercase = true
 
 [connection signal="button_up" from="levelcomtempo" to="." method="_on_levelcomtempo_button_up"]
 [connection signal="button_up" from="levelcomvidas" to="." method="_on_levelcomvidas_button_up"]
+[connection signal="button_up" from="Voltar" to="." method="_on_voltar_button_up"]

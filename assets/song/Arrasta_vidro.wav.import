@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://bg5a1070utq3s"
-path="res://.godot/imported/ArrastaVidro.wav-1ecc43b058e402d2f615e29b2e108cfd.sample"
+path="res://.godot/imported/Arrasta_vidro.wav-e9864d54b3e4663430972744de4ab7b2.sample"
 
 [deps]
 
-source_file="res://assets/song/ArrastaVidro.wav"
-dest_files=["res://.godot/imported/ArrastaVidro.wav-1ecc43b058e402d2f615e29b2e108cfd.sample"]
+source_file="res://assets/song/Arrasta_vidro.wav"
+dest_files=["res://.godot/imported/Arrasta_vidro.wav-e9864d54b3e4663430972744de4ab7b2.sample"]
 
 [params]
 
