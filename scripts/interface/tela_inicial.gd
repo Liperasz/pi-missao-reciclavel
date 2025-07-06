@@ -29,3 +29,4 @@ func _on_loja_button_up() -> void:
 
 func _on_configuracoes_button_up() -> void:
 	global.som_click()
+	get_tree().change_scene_to_file("res://scenes/interface/configuracoes.tscn")
