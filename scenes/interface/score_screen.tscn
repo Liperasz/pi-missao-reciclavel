@@ -48,9 +48,7 @@ flat = true
 
 [node name="LabelButton" type="Label" parent="TextureButton"]
 layout_mode = 0
-
-offset_left = 74.0
-
+offset_left = 4.0
 offset_top = -2.0
 offset_right = 268.0
 offset_bottom = 61.0
