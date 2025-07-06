@@ -1,0 +1,43 @@
+[gd_scene load_steps=2 format=3 uid="uid://c2ql00211pa3m"]
+
+[ext_resource type="Script" uid="uid://b2cg186wy2hn5" path="res://scripts/interface/configuracoes.gd" id="1_as3r0"]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_as3r0")
+
+[node name="fundo" type="TextureRect" parent="."]
+offset_right = 529.0
+offset_bottom = 558.0
+
+[node name="Aumentar" type="Button" parent="."]
+offset_left = 517.0
+offset_top = 126.0
+offset_right = 796.0
+offset_bottom = 245.0
+text = "AUMENTAR"
+
+[node name="Diminuir" type="Button" parent="."]
+offset_left = 11.0
+offset_top = 154.0
+offset_right = 316.0
+offset_bottom = 230.0
+text = "DIMINUIR"
+
+[node name="Mutar" type="Button" parent="."]
+offset_left = 248.0
+offset_top = 288.0
+offset_right = 561.0
+offset_bottom = 387.0
+text = "MUTAR"
+
+[node name="voltar" type="Button" parent="."]
+offset_left = 60.0
+offset_top = 437.0
+offset_right = 219.0
+offset_bottom = 511.0
+text = "VOLTAR"
+
+[connection signal="button_up" from="Aumentar" to="." method="_on_aumentar_button_up"]
+[connection signal="button_up" from="Diminuir" to="." method="_on_diminuir_button_up"]
+[connection signal="button_up" from="Mutar" to="." method="_on_mutar_button_up"]
+[connection signal="button_up" from="voltar" to="." method="_on_voltar_button_up"]
