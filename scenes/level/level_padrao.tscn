@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://d2npnbaca7h3i"]
+
+[ext_resource type="PackedScene" uid="uid://dm0nv7mdhpm30" path="res://scenes/recycle_bin/recycle_bin.tscn" id="1_2d864"]
+[ext_resource type="Script" uid="uid://ixnc8ibqekau" path="res://scripts/level/level_padrao.gd" id="1_317n5"]
+[ext_resource type="PackedScene" uid="uid://cju2hkmd3d61g" path="res://scenes/trash/trash.tscn" id="2_317n5"]
+
+[node name="Scene" type="Node2D"]
+script = ExtResource("1_317n5")
+
+[node name="Background" type="TextureRect" parent="."]
+offset_right = 972.0
+offset_bottom = 2127.0
+scale = Vector2(0.4, 0.4)
+
+[node name="Recycle_bin" parent="." instance=ExtResource("1_2d864")]
+
+[node name="Trash" parent="." instance=ExtResource("2_317n5")]

@@ -1,13 +1,26 @@
 extends Node2D
 
-signal fechar
+signal fechar(acao: String)
 
 var estrela_textura: Texture2D = load("res://assets/powers/pontuacao.png")
+var background_padrao = load("res://assets/interface/pontuacao/score.png")
+var background_missao = load("res://assets/interface/pontuacao/pontuacao.png")
+
+@onready var background: TextureRect = get_node("Fundo")
 
 func _ready():
+	
+	if global.missao_diaria:
+		background.texture = background_missao
+		$TextureButton2.visible = false
+		$TextureButton2.disabled = true
+	else:
+		background.texture = background_padrao
+		$TextureButton2.visible = true
+		$TextureButton2.disabled = false
 
 #mensagem conforme seu desenvolvimento
-	if global.estrelas == 3:
+	if global.estrelas >= 3:
 		$LabelFeedback.text = "Perfeito!"
 	elif global.estrelas == 2:
 		$LabelFeedback.text = "Muito bom!"
@@ -18,7 +31,10 @@ func _ready():
 		
 	exibir_estrelas(global.estrelas)
 	# Texto do botão (LabelButton está dentro do TextureButton)
-	if global.estrelas >= 1:
+	if global.missao_diaria:
+		$TextureButton/LabelButton.text = "Menu Principal"
+	
+	elif global.estrelas >= 1:
 		global.som_Vitoria()
 
 		$TextureButton/LabelButton.text = "Jogar fase " +str(global.player_level + 1)
@@ -26,11 +42,19 @@ func _ready():
 	else:
 		global.som_Game_over()
 		$TextureButton/LabelButton.text = "Repetir fase " +str(global.player_level)
+		
+	$TextureButton2/LabelButton.text = "Menu Principal"
 
 func _on_texture_button_button_up() -> void:
 	global.som_click()
-	emit_signal("fechar")
+	emit_signal("fechar", "continuar")
 	queue_free()
+	
+func _on_texture_button_2_button_up() -> void:
+	global.som_click()
+	emit_signal("fechar", "menu")
+	queue_free()
+
 
 func exibir_estrelas(estrelas : int):
 	var espaco_label = 250/max(estrelas, 1)

@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://cfst6x46yaxhv"]
+
+[ext_resource type="Script" uid="uid://b5dc5diro5arx" path="res://scripts/level/levelcomtempo.gd" id="1_i44o4"]
+[ext_resource type="PackedScene" uid="uid://dm0nv7mdhpm30" path="res://scenes/recycle_bin/recycle_bin.tscn" id="2_5w1ip"]
+[ext_resource type="PackedScene" uid="uid://cju2hkmd3d61g" path="res://scenes/trash/trash.tscn" id="3_slo4h"]
+[ext_resource type="PackedScene" uid="uid://oyjy8ja3pii5" path="res://scenes/inventario/inventario_level_com_tempo.tscn" id="4_td6w4"]
+
+[node name="levelcomtempo" type="Node2D"]
+script = ExtResource("1_i44o4")
+
+[node name="Timer_do_jogo" type="Timer" parent="."]
+unique_name_in_owner = true
+autostart = true
+
+[node name="Background" type="TextureRect" parent="."]
+offset_right = 972.0
+offset_bottom = 2127.0
+scale = Vector2(0.4, 0.4)
+
+[node name="Recycle_bin" parent="." instance=ExtResource("2_5w1ip")]
+
+[node name="Trash" parent="." instance=ExtResource("3_slo4h")]
+
+[node name="LabelTempo" type="Label" parent="."]
+offset_left = 148.0
+offset_top = 31.0
+offset_right = 250.0
+offset_bottom = 54.0
+text = "TEMPO:"
+
+[node name="inventario_tempo" parent="." instance=ExtResource("4_td6w4")]

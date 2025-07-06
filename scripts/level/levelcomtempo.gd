@@ -6,7 +6,10 @@ extends Node2D
 @onready var label_tempo: Label = get_node("LabelTempo")
 @onready var cronometro: Timer = get_node("%Timer_do_jogo")
 
-var tempo_em_segundos: int = 60
+var tempo_em_segundos: int = 15
+var tempo_inicial: int = tempo_em_segundos
+var tempo_medio_por_lixo: float = 2
+
 
 var scenarios = [
 	"biblioteca",
@@ -54,6 +57,12 @@ func _process(delta: float) -> void:
 func _on_cronometro_timeout():
 	tempo_em_segundos -= 1
 	atualizar_label()
+	
+	if tempo_em_segundos <= 0:
+		cronometro.stop()
+		for child in trash_container.get_children():
+			child.queue_free()
+		finalizou_a_fase()
 	
 func atualizar_label():
 	var min = tempo_em_segundos / 60
@@ -138,7 +147,14 @@ func finalizou_a_fase():
 	print("Acabou a fase")
 	print("Acertos", global.acertos_pontuacao)
 	print("Erros", global.erros_pontuacao)
+	
+	var pontuacao_maxima_esperada = (tempo_inicial / tempo_medio_por_lixo) * 10
+	if pontuacao_maxima_esperada <= 0:
+		pontuacao_maxima_esperada = 10
+	
 	var pontuacao = pontuacao_scene.instantiate()
+	pontuacao.pontuacao_maxima = pontuacao_maxima_esperada
+
 	add_child(pontuacao)
 	await pontuacao.fechar_tela_pontuacao
 	var score = score_scene.instantiate()

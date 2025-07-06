@@ -3,7 +3,7 @@ extends Node2D
 @onready var recyble_bin_container: StaticBody2D = get_node("Recycle_bin")
 @onready var trash_container: Node2D = get_node("Trash")
 @onready var background: TextureRect = get_node("Background")
-@onready var label_vida: Label = get_node("LabelVida")
+
 
 var scenarios = [
 	"biblioteca",
@@ -11,7 +11,6 @@ var scenarios = [
 	"construcao",
 	"deserto",
 	"fazenda",
-	#falta 3 cenários que não consegui carregar no godot
 	"parque_diversao",
 	"praia"
 ]
@@ -43,11 +42,10 @@ func _ready() -> void:
 	choose_trash_types()
 	create_recycle_bins()
 	create_trash()
-	atualizar_label()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	atualizar_label()
+	pass
 
 
 func choose_scenario() -> void:
@@ -55,11 +53,6 @@ func choose_scenario() -> void:
 	var path = "res://assets/scenarios/%s.png" % scenario
 	background.texture = load(path)
 
-func atualizar_label():
-	label_vida.text =  "VIDA: " + str("%02d" % [global.qtd_vida])
-	if global.qtd_vida <= 0:
-		global.qtd_vida = global.vidas
-		finalizou_a_fase()
 	
 func choose_trash_types() -> void:
 	types_in_level = trash_types
@@ -67,18 +60,18 @@ func choose_trash_types() -> void:
 	
 	if global.player_level == 1:
 		recycle_bin_quant = 2
-		trash_quant =3
+		trash_quant = 3
 	
 	elif global.player_level == 2:
 		recycle_bin_quant = 3
-		trash_quant =5
+		trash_quant = 5
 		
 	elif global.player_level == 3:
 		recycle_bin_quant = 4
-		trash_quant =7
+		trash_quant = 7
 	else:
 		recycle_bin_quant = 4
-		trash_quant =10
+		trash_quant = 10
 	
 	
 	types_in_level = types_in_level.slice(0, recycle_bin_quant)
@@ -116,11 +109,6 @@ func create_trash():
 	trash.scenario = scenario
 	trash.position = Vector2(195, 800)
 	trash_container.add_child(trash)
-	print("Adicionado à cena:", trash.name)
-	print("Trash container tem %d filhos" % trash_container.get_child_count())
-	for child in trash_container.get_children():
-		print("Filho:", child.name, "Posição:", child.position, "Visível:", child.visible)
-
 	
 	trash.connect("is_on_right_bin", Callable(self, "on_trash_dropped"))
 
@@ -129,12 +117,11 @@ func on_trash_dropped(trash):
 	destroyed_trash += 1
 	trash.queue_free()
 	
-	if destroyed_trash >= trash_quant:	
-		print("destroyed_trash ", destroyed_trash)
-		print(" trash_quan ", trash_quant)
+	# Checa se já coletou todos os lixos necessários
+	if destroyed_trash >= trash_quant:	 
 		finalizou_a_fase()
-		
 	else:
+		# Se não, cria o próximo lixo
 		create_trash()
 		
 func zerar_variaveis_globais():
@@ -166,42 +153,8 @@ func finalizou_a_fase():
 	else:
 		get_tree().reload_current_scene()
 		
-func limpar_lixo_poder():
-	#for child in trash_container.get_children():
-		#print("Filho encontrado:", child.name, "Tipo:", child)
-	if trash_container.get_child_count() > 0:
-		for child in trash_container.get_children():
-			if child is Trash:
-				print("Limpou um lixo:", child.name)
-				child.queue_free()
-				await get_tree().create_timer(0.05)
-				destroyed_trash += 1
-				global.acertos_pontuacao += 1
-				if destroyed_trash >= trash_quant:
-					#print("destroyed_trash ", destroyed_trash)
-					#print(" trash_quan ", trash_quant)
-					finalizou_a_fase()
-				else:
-					create_trash()
-				break
-				
-func super_ima_poder():
-	if trash_container.get_child_count() > 0:
-		for child in trash_container.get_children():
-			if child is Trash and child.type == "metal":
-				#print("Limpou um lixo:", child.name)
-				child.queue_free()
-				await get_tree().create_timer(0.05)
-				destroyed_trash += 1
-				global.acertos_pontuacao += 1
-				if destroyed_trash >= trash_quant:
-					#print("destroyed_trash ", destroyed_trash)
-					#print(" trash_quan ", trash_quant)
-					finalizou_a_fase()
-				else:
-					create_trash()
-				break
-	
+
+
 func tocar_som(random_type):
 	var tocar = AudioStreamPlayer.new()
 	var audio_path = "res://assets/song/Arrasta_%s.wav" % random_type

@@ -17,9 +17,9 @@ func atualizar_label():
 	labelPontuacao.text = str(global.pontos) 
 	
 # Calcula o número de estrelas com base nos pontos
-# acertos maior que 80 são 3 estrelas
-# acertos maior que 50 são 2 estrelas
-# acertos maior que 5 são 1 estrela
+# acertos maior que 75% são 3 estrelas
+# acertos maior que 50% são 2 estrelas
+# acertos maior que 25% são 1 estrela
 func calcular_estrelas(pontos: int, pontuacao_maxima: int) -> int:
 	if pontuacao_maxima == 0: # Segurança para não dividir por zero
 		return 0

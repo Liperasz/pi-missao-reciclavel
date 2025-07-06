@@ -50,7 +50,8 @@ func has_mission_been_played_today() -> bool:
 
 # Atualiza o estado dos botões de missão (habilitar/desabilitar)
 func update_mission_buttons_state():
-	var mission_played = has_mission_been_played_today()
+	#var mission_played = has_mission_been_played_today()
+	var mission_played = false
 
 	var missao_1_button = get_node("missao1") 
 	var missao_2_button = get_node("missao2") 
@@ -67,9 +68,10 @@ func update_mission_buttons_state():
 	if mission_played:
 		print("As missões diárias já foram completadas hoje. Volte amanhã!")
 
+	#lembrar de colocar os NOT denovo nas funções
 func _on_missao_1_button_up() -> void:
 	global.som_click()
-	if not has_mission_been_played_today():
+	if has_mission_been_played_today():
 		global.player_level = 1
 		global.multiplicador = 2
 		global.missao_diaria = true
@@ -82,7 +84,7 @@ func _on_missao_1_button_up() -> void:
 
 func _on_missao_2_button_up() -> void:
 	global.som_click()
-	if not has_mission_been_played_today():
+	if has_mission_been_played_today():
 		global.player_level = 2
 		global.multiplicador = 2.5
 		global.missao_diaria = true
@@ -95,7 +97,7 @@ func _on_missao_2_button_up() -> void:
 
 func _on_missao_3_button_up() -> void:
 	global.som_click()
-	if not has_mission_been_played_today():
+	if has_mission_been_played_today():
 		global.player_level = 4
 		global.multiplicador = 3
 		global.missao_diaria = true
@@ -115,6 +117,6 @@ func aleatorio():
 	rng.randomize()
 	var numero_aleatorio = rng.randi_range(0, 1)
 	if numero_aleatorio == 1:
-		get_tree().change_scene_to_file("res://scenes/levelcomtempo/levelcomtempo.tscn")
+		get_tree().change_scene_to_file("res://scenes/level/levelcomtempo.tscn")
 	else:
-		get_tree().change_scene_to_file("res://scenes/level_com_vida/level_com_vida.tscn")
+		get_tree().change_scene_to_file("res://scenes/level/level_com_vida.tscn")
