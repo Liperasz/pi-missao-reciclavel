@@ -2,7 +2,7 @@ extends Node2D
 
 signal fechar_tela_pontuacao
 
-@onready var labelPontuacao : Label = get_node("LabelPontuacao")
+@onready var labelPontuacao : Label = get_node("LabelPontuacao2")
 var score_scene = preload("res://scenes/interface/score_screen.tscn")
 var nome_fase: String = ""
 
@@ -11,7 +11,7 @@ func calcular_pontuacao():
 	global.pontos =  max(0, global.acertos_pontuacao * 10 - global.erros_pontuacao * 5)
 
 func atualizar_label():
-	labelPontuacao.text = "Sua Pontuação foi de: " + str(global.pontos) + " Pontos!"
+	labelPontuacao.text = str(global.pontos) 
 	
 # Calcula o número de estrelas com base nos pontos
 # acertos maior que 80 são 3 estrelas
