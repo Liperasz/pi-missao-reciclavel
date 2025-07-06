@@ -147,11 +147,17 @@ func finalizou_a_fase():
 	print("Acabou a fase", global.player_level)
 	print("Acertos", global.acertos_pontuacao)
 	print("Erros", global.erros_pontuacao)
+	
 	var pontuacao = pontuacao_scene.instantiate()
+	var pontuacao_maxima = trash_quant * 10
+	pontuacao.pontuacao_maxima = pontuacao_maxima
+	
 	add_child(pontuacao)
 	await pontuacao.fechar_tela_pontuacao
+	
 	var score = score_scene.instantiate()
 	add_child(score)
+	
 	await score.fechar
 	zerar_variaveis_globais()
 	if global.missao_diaria == true:

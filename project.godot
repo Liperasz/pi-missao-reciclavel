@@ -11,6 +11,7 @@ config_version=5
 [application]
 
 config/name="Missão Reciclável"
+run/main_scene="uid://lhdxexjl6t0t"
 config/features=PackedStringArray("4.4", "Mobile")
 config/icon="res://icon.svg"
 

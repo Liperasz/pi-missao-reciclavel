@@ -117,4 +117,4 @@ func aleatorio():
 	if numero_aleatorio == 1:
 		get_tree().change_scene_to_file("res://scenes/levelcomtempo/levelcomtempo.tscn")
 	else:
-		get_tree().change_scene_to_file("res://scenes/level/level.tscn")
+		get_tree().change_scene_to_file("res://scenes/level_com_vida/level_com_vida.tscn")

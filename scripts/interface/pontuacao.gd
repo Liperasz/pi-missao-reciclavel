@@ -6,6 +6,9 @@ signal fechar_tela_pontuacao
 var score_scene = preload("res://scenes/interface/score_screen.tscn")
 var nome_fase: String = ""
 
+@export
+var pontuacao_maxima: int = 0
+
 # Calcula a pontuação com base em acertos e erros
 func calcular_pontuacao():
 	global.pontos =  max(0, global.acertos_pontuacao * 10 - global.erros_pontuacao * 5)
@@ -17,12 +20,17 @@ func atualizar_label():
 # acertos maior que 80 são 3 estrelas
 # acertos maior que 50 são 2 estrelas
 # acertos maior que 5 são 1 estrela
-func calcular_estrelas(pontos: int) -> int:
-	if pontos >= 80:
+func calcular_estrelas(pontos: int, pontuacao_maxima: int) -> int:
+	if pontuacao_maxima == 0: # Segurança para não dividir por zero
+		return 0
+		
+	var porcentagem = float(pontos) / float(pontuacao_maxima)
+	
+	if porcentagem >= 0.75:
 		global.estrelas = 3
-	elif pontos >= 50:
+	elif porcentagem >= 0.50:
 		global.estrelas = 2
-	elif pontos > 5:
+	elif porcentagem > 0.25:
 		global.estrelas = 1
 	else:
 		global.estrelas = 0
@@ -32,7 +40,7 @@ func calcular_estrelas(pontos: int) -> int:
 func finalizar_fase():
 	calcular_pontuacao()
 	atualizar_label()
-	global.estrelas = calcular_estrelas(global.pontos)
+	global.estrelas = calcular_estrelas(global.pontos, pontuacao_maxima)
 	print("estrelas antes ", global.estrelas)
 	global.estrelas *= global.multiplicador
 	print("estrelas depois ", global.estrelas)
