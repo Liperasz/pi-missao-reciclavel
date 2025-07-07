@@ -146,6 +146,7 @@ func finalizou_a_fase():
 	add_child(score)
 	
 	var acao = await score.fechar
+	var estrelas_ganhas = global.estrelas
 	zerar_variaveis_globais()
 	if global.missao_diaria == true:
 		global.missao_diaria = false
@@ -154,6 +155,8 @@ func finalizou_a_fase():
 		if acao == "menu":
 			get_tree().change_scene_to_file("res://scenes/interface/selecionar_fase.tscn")
 		else:
+			if estrelas_ganhas >= 1:
+				global.current_level += 1
 			get_tree().reload_current_scene()
 		
 

@@ -9,13 +9,12 @@ var background_missao = load("res://assets/interface/pontuacao/pontuacao.png")
 @onready var background: TextureRect = get_node("Fundo")
 
 func _ready():
+	# Lógica de desbloqueio separada por modo
 	if global.estrelas >= 1 and not global.missao_diaria:
 		if global.modo_especial:
-			# Desbloqueia o próximo nível no modo Especial
 			if global.current_level == global.progresso_especial.max_level:
 				global.progresso_especial.max_level += 1
 		else:
-			# Desbloqueia o próximo nível no modo Padrão
 			if global.current_level == global.progresso_padrao.max_level:
 				global.progresso_padrao.max_level += 1
 		
@@ -33,24 +32,25 @@ func _ready():
 		$TextureButton2.disabled = false
 
 	# Mensagem de feedback com base nas estrelas
-	if global.estrelas >= 3: 
-		$LabelFeedback.text = "Perfeito!"
-	elif global.estrelas == 2: 
-		$LabelFeedback.text = "Muito bom!"
-	elif global.estrelas == 1: 
-		$LabelFeedback.text = "Você conseguiu!"
-	else: 
-		$LabelFeedback.text = "Tente novamente"
+	if global.estrelas >= 3: $LabelFeedback.text = "Perfeito!"
+	elif global.estrelas == 2: $LabelFeedback.text = "Muito bom!"
+	elif global.estrelas == 1: $LabelFeedback.text = "Você conseguiu!"
+	else: $LabelFeedback.text = "Tente novamente"
 		
 	exibir_estrelas(global.estrelas)
 	
-	# Define o texto dos botões
 	if global.missao_diaria:
 		$TextureButton/LabelButton.text = "Menu Principal"
 	elif global.estrelas >= 1:
 		global.som_Vitoria()
-		$TextureButton/LabelButton.text = "Continuar"
-	else:
+		# Verifica se o próximo nível está desbloqueado para mostrar o texto correto.
+		var prox_nivel = global.current_level + 1
+		var max_level_modo = global.progresso_padrao.max_level if not global.modo_especial else global.progresso_especial.max_level
+		if prox_nivel <= max_level_modo:
+			$TextureButton/LabelButton.text = "Próxima Fase"
+		else:
+			$TextureButton/LabelButton.text = "Continuar" # Ou pode ser "Menu de Fases"
+	else: # 0 estrelas
 		global.som_Game_over()
 		$TextureButton/LabelButton.text = "Repetir fase"
 		
@@ -59,6 +59,7 @@ func _ready():
 # Botão 1 (Continuar / Repetir / Menu da Missão)
 func _on_texture_button_button_up() -> void:
 	global.som_click()
+	# A ação de "continuar" é a mesma, a lógica de avançar será na tela de fase.
 	emit_signal("fechar", "continuar")
 	queue_free()
 	
