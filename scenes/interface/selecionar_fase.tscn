@@ -20,18 +20,18 @@ offset_bottom = 835.0
 flat = true
 
 [node name="Fase1" type="Button" parent="."]
-offset_left = 23.0
-offset_top = 131.0
-offset_right = 183.0
-offset_bottom = 289.0
+offset_left = 22.0
+offset_top = 517.0
+offset_right = 182.0
+offset_bottom = 675.0
 text = "FASE 1"
 flat = true
 
 [node name="Fase2" type="Button" parent="."]
-offset_left = 205.0
-offset_top = 132.0
-offset_right = 365.0
-offset_bottom = 290.0
+offset_left = 206.0
+offset_top = 515.0
+offset_right = 366.0
+offset_bottom = 673.0
 text = "FASE 2"
 flat = true
 
@@ -53,17 +53,17 @@ flat = true
 
 [node name="Fase5" type="Button" parent="."]
 offset_left = 22.0
-offset_top = 511.0
+offset_top = 134.0
 offset_right = 182.0
-offset_bottom = 669.0
+offset_bottom = 292.0
 text = "FASE 5"
 flat = true
 
 [node name="Fase6" type="Button" parent="."]
-offset_left = 205.0
-offset_top = 514.0
-offset_right = 365.0
-offset_bottom = 672.0
+offset_left = 206.0
+offset_top = 132.0
+offset_right = 366.0
+offset_bottom = 290.0
 text = "FASE 6"
 flat = true
 

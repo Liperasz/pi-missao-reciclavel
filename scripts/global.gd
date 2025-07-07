@@ -2,7 +2,10 @@ extends Node2D
 var item_selecionado: int = 0
 
 var is_dragging = false
-var player_level = 1
+
+#level do jogador
+var current_level = 1
+var max_level = 1
 
 var missao_diaria = false
 var vidas : int = 5
@@ -27,59 +30,74 @@ var estrelas = 0
 var multiplicador = 1
 #sistema de pontuação inicio
 #variaves inicializadas
-var fases_completas = {}  
+var fases_completas = {}  # funcionará no esquema: {"Fase 1": {"estrelas": 3, "pontos": 150}}
 var saldo_estrelas = 100
 
 #variaveis para escolher modo de jogo:
-var modo_tempo = false
+var modo_especial = false
 
 #variaveis de configuração:
 var volume = 0
 # Caminho para salvar o progresso
 const SAVE_FILE_PATH = "user://progresso_jogador.save"
 
+func deletar_progresso_antigo():
+	if FileAccess.file_exists(SAVE_FILE_PATH):
+		print("Arquivo de save antigo encontrado. Deletando...")
+		var dir = DirAccess.open("user://")
+		dir.remove(SAVE_FILE_PATH.get_file())
+		print("Arquivo de save deletado.")
+
 func _ready():
-# Carrega progresso salvo ao iniciar o jogo
+	#deletar_progresso_antigo()
 	carregar_progresso()
 
 # ela e chamada quando o jogador termina uma fase
-func atualizar_fase(fase_nome: String, estrelas: int) -> void:
-#verifica quanta estraelas o jogador ja tinha
-	var estrelas_anteriores = fases_completas.get(fase_nome, 0)
-# calcula as novas estrelas
-	var novas_estrelas = max(estrelas - estrelas_anteriores, 0)
-#se conquistou novas estrelas  serao add ao saldo 
-	if novas_estrelas > 0:
-		saldo_estrelas += novas_estrelas
-# atualiza o maior numeros de estrelas ja conseguido
-		fases_completas[fase_nome] = max(estrelas, estrelas_anteriores)
-		salvar_progresso()
+func atualizar_fase(fase_nome: String, estrelas_conquistadas: int, pontos_conquistados: int) -> void:
+
+	var dados_antigos = fases_completas.get(fase_nome, {"estrelas": 0, "pontos": 0})
+	var estrelas_antigas = dados_antigos["estrelas"]
+	var pontuacao_antiga = dados_antigos["pontos"]
+
+	# Calcula a diferença de estrelas para adicionar ao saldo do jogador.
+	var diferenca_estrelas = max(0, estrelas_conquistadas - estrelas_antigas)
+	if diferenca_estrelas > 0:
+		saldo_estrelas += diferenca_estrelas
+
+	# Atualiza os recordes para os maiores valores já obtidos.
+	var novo_recorde_estrelas = max(estrelas_antigas, estrelas_conquistadas)
+	var novo_recorde_pontos = max(pontuacao_antiga, pontos_conquistados)
+
+	# Salva o novo "pacote" de dados no dicionário.
+	fases_completas[fase_nome] = {
+		"estrelas": novo_recorde_estrelas,
+		"pontos": novo_recorde_pontos
+	}
+	
+	salvar_progresso()
 
 # salva os dados 
 func salvar_progresso():
 	var dados = {
 		"fases_completas": fases_completas,
-		"saldo_estrelas": saldo_estrelas
+		"saldo_estrelas": saldo_estrelas,
+		"max_level": max_level
 	}
-
 	var file = FileAccess.open(SAVE_FILE_PATH, FileAccess.WRITE)
 	if file:
-# salva o conteudo os dados 
 		file.store_var(dados)
-# fecha o arquivo
 		file.close()
 
-# carregar o progresso salvo
 func carregar_progresso():
-# verifica se o arquivo existe
 	if FileAccess.file_exists(SAVE_FILE_PATH):
-# mode de leitura  do arquivo
 		var file = FileAccess.open(SAVE_FILE_PATH, FileAccess.READ)
 		if file:
 			var dados = file.get_var()
 			fases_completas = dados.get("fases_completas", {})
 			saldo_estrelas = dados.get("saldo_estrelas", 0)
+			max_level = dados.get("max_level", 1)
 			file.close()
+
 func som_lixeira_correta():	
 	var som = load("res://assets/song/LixeiraCorreta.wav")
 	if som == null:

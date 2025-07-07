@@ -58,15 +58,15 @@ func choose_trash_types() -> void:
 	types_in_level = trash_types
 	types_in_level.shuffle()
 	
-	if global.player_level == 1:
+	if global.current_level == 1:
 		recycle_bin_quant = 2
 		trash_quant = 3
 	
-	elif global.player_level == 2:
+	elif global.current_level == 2:
 		recycle_bin_quant = 3
 		trash_quant = 5
 		
-	elif global.player_level == 3:
+	elif global.current_level == 3:
 		recycle_bin_quant = 4
 		trash_quant = 7
 	else:
@@ -131,7 +131,7 @@ func zerar_variaveis_globais():
 	global.pontos = 0
 
 func finalizou_a_fase():
-	print("Acabou a fase", global.player_level)
+	print("Acabou a fase", global.current_level)
 	print("Acertos", global.acertos_pontuacao)
 	print("Erros", global.erros_pontuacao)
 	
@@ -145,13 +145,16 @@ func finalizou_a_fase():
 	var score = score_scene.instantiate()
 	add_child(score)
 	
-	await score.fechar
+	var acao = await score.fechar
 	zerar_variaveis_globais()
 	if global.missao_diaria == true:
 		global.missao_diaria = false
 		get_tree().change_scene_to_file("res://scenes/interface/tela_inicial.tscn")
 	else:
-		get_tree().reload_current_scene()
+		if acao == "menu":
+			get_tree().change_scene_to_file("res://scenes/interface/selecionar_fase.tscn")
+		else:
+			get_tree().reload_current_scene()
 		
 
 

@@ -1,13 +1,13 @@
 extends Node2D
 
 
-func _on_levelcomtempo_button_up() -> void:
-	global.modo_tempo = true
+func _on_modo_padrao_button_up() -> void:
+	global.modo_especial = false
 	global.som_click()
 	get_tree().change_scene_to_file("res://scenes/interface/selecionar_fase.tscn")
 
-func _on_levelcomvidas_button_up() -> void:
-	global.modo_tempo = false
+func _on_modo_especial_button_up() -> void:
+	global.modo_especial = true
 	global.som_click()
 	get_tree().change_scene_to_file("res://scenes/interface/selecionar_fase.tscn")
 

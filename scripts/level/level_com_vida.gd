@@ -65,15 +65,15 @@ func choose_trash_types() -> void:
 	types_in_level = trash_types
 	types_in_level.shuffle()
 	
-	if global.player_level == 1:
+	if global.current_level == 1:
 		recycle_bin_quant = 2
 		trash_quant =3
 	
-	elif global.player_level == 2:
+	elif global.current_level == 2:
 		recycle_bin_quant = 3
 		trash_quant =5
 		
-	elif global.player_level == 3:
+	elif global.current_level == 3:
 		recycle_bin_quant = 4
 		trash_quant =7
 	else:
@@ -144,7 +144,7 @@ func zerar_variaveis_globais():
 	global.pontos = 0
 
 func finalizou_a_fase():
-	print("Acabou a fase", global.player_level)
+	print("Acabou a fase", global.current_level)
 	print("Acertos", global.acertos_pontuacao)
 	print("Erros", global.erros_pontuacao)
 	
@@ -167,7 +167,10 @@ func finalizou_a_fase():
 		if acao_escolhida == "menu":
 			get_tree().change_scene_to_file("res://scenes/interface/selecionar_fase.tscn")
 		else:
-			get_tree().reload_current_scene()
+			if global.current_level % 2 == 0:
+				get_tree().change_scene_to_file("res://scenes/level/levelcomtempo.tscn")
+			else:
+				get_tree().change_scene_to_file("res://scenes/level/level_com_vida.tscn")
 		
 func limpar_lixo_poder():
 	#for child in trash_container.get_children():

@@ -81,13 +81,13 @@ func choose_trash_types() -> void:
 	types_in_level = trash_types
 	types_in_level.shuffle()
 	
-	if global.player_level == 1:
+	if global.current_level == 1:
 		recycle_bin_quant = 2
 	
-	elif global.player_level == 2:
+	elif global.current_level == 2:
 		recycle_bin_quant = 3
 		
-	elif global.player_level == 3:
+	elif global.current_level == 3:
 		recycle_bin_quant = 4
 
 	else:
@@ -159,13 +159,20 @@ func finalizou_a_fase():
 	await pontuacao.fechar_tela_pontuacao
 	var score = score_scene.instantiate()
 	add_child(score)
-	await score.fechar
+	
+	var acao_escolhida = await score.fechar
 	zerar_variaveis_globais()
 	if global.missao_diaria == true:
 		global.missao_diaria = false
 		get_tree().change_scene_to_file("res://scenes/interface/tela_inicial.tscn")
 	else:
-		get_tree().reload_current_scene()	
+		if acao_escolhida == "menu":
+			get_tree().change_scene_to_file("res://scenes/interface/selecionar_fase.tscn")
+		else:
+			if global.current_level % 2 == 0:
+				get_tree().change_scene_to_file("res://scenes/level/levelcomtempo.tscn")
+			else:
+				get_tree().change_scene_to_file("res://scenes/level/level_com_vida.tscn")
 	
 func limpar_lixo_poder():
 	for child in trash_container.get_children():

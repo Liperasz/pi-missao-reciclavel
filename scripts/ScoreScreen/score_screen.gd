@@ -10,6 +10,12 @@ var background_missao = load("res://assets/interface/pontuacao/pontuacao.png")
 
 func _ready():
 	
+	# Se o jogador passou de fase E estava jogando o nível mais alto disponível...
+	if global.estrelas >= 1 and global.current_level == global.max_level:
+		# desbloqueia o próximo nível.
+		global.max_level += 1
+		global.salvar_progresso()
+	
 	if global.missao_diaria:
 		background.texture = background_missao
 		$TextureButton2.visible = false
@@ -19,37 +25,35 @@ func _ready():
 		$TextureButton2.visible = true
 		$TextureButton2.disabled = false
 
-#mensagem conforme seu desenvolvimento
-	if global.estrelas >= 3:
-		$LabelFeedback.text = "Perfeito!"
-	elif global.estrelas == 2:
-		$LabelFeedback.text = "Muito bom!"
-	elif global.estrelas == 1:
-		$LabelFeedback.text = "Você conseguiu!"
-	else:
-		$LabelFeedback.text = "Tente novamente"
+	# Mensagem de feedback
+	if global.estrelas >= 3: $LabelFeedback.text = "Perfeito!"
+	elif global.estrelas == 2: $LabelFeedback.text = "Muito bom!"
+	elif global.estrelas == 1: $LabelFeedback.text = "Você conseguiu!"
+	else: $LabelFeedback.text = "Tente novamente"
 		
 	exibir_estrelas(global.estrelas)
-	# Texto do botão (LabelButton está dentro do TextureButton)
+	
+	# Define o texto dos botões
 	if global.missao_diaria:
 		$TextureButton/LabelButton.text = "Menu Principal"
-	
 	elif global.estrelas >= 1:
 		global.som_Vitoria()
-
-		$TextureButton/LabelButton.text = "Jogar fase " +str(global.player_level + 1)
-		global.player_level += 1
+		# O texto agora mostra o nível que acabou de ser desbloqueado
+		$TextureButton/LabelButton.text = "Continuar"
 	else:
 		global.som_Game_over()
-		$TextureButton/LabelButton.text = "Repetir fase " +str(global.player_level)
+		$TextureButton/LabelButton.text = "Repetir fase"
 		
-	$TextureButton2/LabelButton.text = "Menu Principal"
+	$TextureButton2/LabelButton.text = "Menu de Fases"
 
+# Botão 1 (Continuar / Repetir / Menu da Missão)
 func _on_texture_button_button_up() -> void:
 	global.som_click()
+	# A ação "continuar" agora é genérica. A tela de nível decidirá o que fazer.
 	emit_signal("fechar", "continuar")
 	queue_free()
 	
+# Botão 2 (Menu Principal)
 func _on_texture_button_2_button_up() -> void:
 	global.som_click()
 	emit_signal("fechar", "menu")

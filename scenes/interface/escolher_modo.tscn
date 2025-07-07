@@ -14,24 +14,24 @@ offset_bottom = 2127.0
 scale = Vector2(0.4, 0.4)
 texture = ExtResource("2_yo0o0")
 
-[node name="levelcomtempo" type="Button" parent="."]
+[node name="modo_padrao" type="Button" parent="."]
 offset_left = 46.0
 offset_top = 269.0
 offset_right = 340.0
 offset_bottom = 363.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 20
-text = "LEVEL COM TEMPO"
+text = "MODO PADRÃO"
 flat = true
 
-[node name="levelcomvidas" type="Button" parent="."]
+[node name="modo_especial" type="Button" parent="."]
 offset_left = 50.0
 offset_top = 509.0
 offset_right = 344.0
 offset_bottom = 603.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 20
-text = "LEVEL COM VIDAS"
+text = "MODO ESPECIAL"
 flat = true
 
 [node name="Voltar" type="Button" parent="."]
@@ -54,6 +54,6 @@ text = " Selecione o modo
 vertical_alignment = 1
 uppercase = true
 
-[connection signal="button_up" from="levelcomtempo" to="." method="_on_levelcomtempo_button_up"]
-[connection signal="button_up" from="levelcomvidas" to="." method="_on_levelcomvidas_button_up"]
+[connection signal="button_up" from="modo_padrao" to="." method="_on_modo_padrao_button_up"]
+[connection signal="button_up" from="modo_especial" to="." method="_on_modo_especial_button_up"]
 [connection signal="button_up" from="Voltar" to="." method="_on_voltar_button_up"]
