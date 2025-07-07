@@ -14,29 +14,29 @@ O cenário atual da educação encontra-se necessitado de ferramentas que transm
 
 A mecânica do jogo é simples e intuitiva:
 
-    Observe o Lixo: Um item de lixo (metal, plástico, papel, orgânico ou vidro) aparece na tela.
+	Observe o Lixo: Um item de lixo (metal, plástico, papel, orgânico ou vidro) aparece na tela.
 
-    Identifique o Atributo: O jogador deve identificar a qual categoria o lixo pertence com base em seu material (seu atributo principal).
+	Identifique o Atributo: O jogador deve identificar a qual categoria o lixo pertence com base em seu material (seu atributo principal).
 
-    Arraste e Solte: O jogador deve arrastar o lixo e soltá-lo na lixeira correta correspondente ao seu tipo.
+	Arraste e Solte: O jogador deve arrastar o lixo e soltá-lo na lixeira correta correspondente ao seu tipo.
 
-    Progrida: Conforme avança, o jogador enfrenta diferentes modos de jogo (padrão, com vidas ou contra o tempo), desbloqueando novas fases e acumulando estrelas com base em seu desempenho.
+	Progrida: Conforme avança, o jogador enfrenta diferentes modos de jogo (padrão, com vidas ou contra o tempo), desbloqueando novas fases e acumulando estrelas com base em seu desempenho.
 
 👥 Equipe do Projeto
 
 Este projeto foi desenvolvido pelos seguintes membros:
 
-    Amanda Thalia Capeletti
+	Amanda Thalia Capeletti
 
-    Cassiana Neves Da Silva
+	Cassiana Neves Da Silva
 
-    Felipe Fonseca
+	Felipe Fonseca
 
-    Fernando Buligon Antunes
+	Fernando Buligon Antunes
 
-    Gustavo Galafaci Conte
+	Gustavo Galafaci Conte
 
-    Heittor Santos Costa
+	Heittor Santos Costa
 
 
 Líder do Projeto: Felipe Fonseca
@@ -46,9 +46,8 @@ Professor Responsável: Prof. Dr. Agnaldo da Costa
 
 🛠️ Detalhes Técnicos
 
-    Engine: Godot Engine v4.4.1
+	Engine: Godot Engine v4.4.1
 
-    Linguagem: GDScript
+	Linguagem: GDScript
 
-    Plataforma Alvo: Mobile
-
+	Plataforma Alvo: Mobile

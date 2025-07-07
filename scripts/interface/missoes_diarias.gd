@@ -50,8 +50,7 @@ func has_mission_been_played_today() -> bool:
 
 # Atualiza o estado dos botões de missão (habilitar/desabilitar)
 func update_mission_buttons_state():
-	#var mission_played = has_mission_been_played_today()
-	var mission_played = false
+	var mission_played = has_mission_been_played_today()
 
 	var missao_1_button = get_node("missao1") 
 	var missao_2_button = get_node("missao2") 
@@ -71,7 +70,7 @@ func update_mission_buttons_state():
 	#lembrar de colocar os NOT denovo nas funções
 func _on_missao_1_button_up() -> void:
 	global.som_click()
-	if has_mission_been_played_today():
+	if not has_mission_been_played_today():
 		global.current_level = 1
 		global.multiplicador = 2
 		global.missao_diaria = true
@@ -84,7 +83,7 @@ func _on_missao_1_button_up() -> void:
 
 func _on_missao_2_button_up() -> void:
 	global.som_click()
-	if has_mission_been_played_today():
+	if not has_mission_been_played_today():
 		global.current_level = 2
 		global.multiplicador = 2.5
 		global.missao_diaria = true
@@ -97,7 +96,7 @@ func _on_missao_2_button_up() -> void:
 
 func _on_missao_3_button_up() -> void:
 	global.som_click()
-	if has_mission_been_played_today():
+	if not has_mission_been_played_today():
 		global.current_level = 4
 		global.multiplicador = 3
 		global.missao_diaria = true
