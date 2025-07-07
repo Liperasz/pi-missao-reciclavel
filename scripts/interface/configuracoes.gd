@@ -11,7 +11,7 @@ var background_menu = load("res://assets/interface/configuracao_menu.png")
 
 # Índice do bus de áudio para os Efeitos Sonoros (SFX).
 var SFX_BUS_INDEX = AudioServer.get_bus_index("SFX")
-# var MUSIC_BUS_INDEX = AudioServer.get_bus_index("Music")
+var MUSIC_BUS_INDEX = AudioServer.get_bus_index("Music")
 
 
 func _ready() -> void:	
@@ -47,7 +47,7 @@ func _on_musica_button_up() -> void:
 	# Inverte o estado da música.
 	global.musica_ativa = not global.musica_ativa
 	
-	# AudioServer.set_bus_mute(MUSIC_BUS_INDEX, not global.musica_ativa)
+	AudioServer.set_bus_mute(MUSIC_BUS_INDEX, not global.musica_ativa)
 	
 	atualizar_texto_botoes_audio()
 	global.salvar_progresso()

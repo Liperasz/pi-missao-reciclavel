@@ -1,5 +1,4 @@
-extends Node2D
-
+extends Node
 # ============================================================================
 # 1. ESTADO DO JOGO E CONFIGURAÇÕES
 # ============================================================================
@@ -18,6 +17,7 @@ var missao_diaria = false
 var super_ima_ativo = false
 
 # Configurações de áudio
+var music_player: AudioStreamPlayer
 var musica_ativa = true
 var efeitos_sonoros_ativos = true
 var abriu_jogo = true
@@ -69,7 +69,17 @@ var erros_consecutivos = 0
 # ============================================================================
 
 func _ready():
+	music_player = AudioStreamPlayer.new()
+	 
+	music_player.name = "MusicPlayer"
+	music_player.bus = "Music"
+		
+	# Adiciona o player como filho da raiz da árvore de cenas.
+	# Isso garante que ele persista durante todo o jogo, mesmo trocando de cena.
+	get_tree().get_root().add_child.call_deferred(music_player)
+	
 	carregar_progresso()
+
 
 func atualizar_fase(fase_nome: String, estrelas_conquistadas: int, pontos_conquistados: int) -> void:
 	var progresso_alvo = progresso_especial if modo_especial else progresso_padrao
@@ -161,10 +171,30 @@ func som_click():
 	if som: tocar_som(som)
 	else: push_error("Arquivo de som não encontrado!")
 
-func som_Entrada():   
+func som_Entrada(): 
 	var som = load("res://assets/song/Entrada.wav")
-	if som: tocar_som(som)
-	else: push_error("Arquivo de som não encontrado!")
+	if som:
+		var player_entrada = AudioStreamPlayer.new()
+		player_entrada.stream = som
+		player_entrada.bus = "SFX"
+		add_child(player_entrada) # Adiciona o player de SFX como filho do singleton
+		player_entrada.play()
+		
+		player_entrada.connect("finished", func():
+			tocar_trilha_sonora()
+			player_entrada.queue_free()
+		)
+	else:
+		push_error("Arquivo de som 'Entrada.wav' não encontrado!")
+		
+func tocar_trilha_sonora():
+	var trilha = load("res://assets/song/TrilhaSonora.mp3")
+	if trilha:
+		trilha.loop = true
+		music_player.stream = trilha
+		music_player.play()
+	else:
+		push_error("Arquivo da trilha sonora não encontrado")
 
 func som_Game_over():   
 	var som = load("res://assets/song/GameOver.wav")
