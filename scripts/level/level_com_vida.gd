@@ -5,6 +5,8 @@ extends Node2D
 @onready var background: TextureRect = get_node("Background")
 @onready var label_vida: Label = get_node("LabelVida")
 
+var configuracoes_scene = preload("res://scenes/interface/configuracoes.tscn")
+
 var scenarios = [
 	"biblioteca",
 	"cidade",
@@ -38,8 +40,8 @@ var destroyed_trash = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	global.is_on_match = true
 	global.super_ima_ativo = false
-	global.som_Entrada()
 	choose_scenario()
 	choose_trash_types()
 	create_recycle_bins()
@@ -174,6 +176,7 @@ func finalizou_a_fase():
 	var acao_escolhida = await score.fechar
 	var estrelas_ganhas = global.estrelas
 	zerar_variaveis_globais()
+	global.is_on_match = false
 	if global.missao_diaria == true:
 		global.missao_diaria = false
 		get_tree().change_scene_to_file("res://scenes/interface/tela_inicial.tscn")
@@ -229,3 +232,14 @@ func tocar_som(random_type):
 	tocar.play()
 	await tocar.finished
 	tocar.queue_free()
+
+
+func _on_pausar_button_up() -> void:
+	# 1. Pausa a árvore de cenas inteira. Timers e _process param.
+	get_tree().paused = true
+	
+	# 2. Cria uma instância da tela de configurações.
+	var settings_menu = configuracoes_scene.instantiate()
+	settings_menu.process_mode = Node.PROCESS_MODE_ALWAYS
+	
+	get_tree().root.add_child(settings_menu)

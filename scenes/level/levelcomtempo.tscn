@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://cfst6x46yaxhv"]
+[gd_scene load_steps=6 format=3 uid="uid://cfst6x46yaxhv"]
 
 [ext_resource type="Script" uid="uid://b5dc5diro5arx" path="res://scripts/level/levelcomtempo.gd" id="1_i44o4"]
 [ext_resource type="PackedScene" uid="uid://dm0nv7mdhpm30" path="res://scenes/recycle_bin/recycle_bin.tscn" id="2_5w1ip"]
 [ext_resource type="PackedScene" uid="uid://cju2hkmd3d61g" path="res://scenes/trash/trash.tscn" id="3_slo4h"]
 [ext_resource type="PackedScene" uid="uid://oyjy8ja3pii5" path="res://scenes/inventario/inventario_level_com_tempo.tscn" id="4_td6w4"]
+[ext_resource type="Texture2D" uid="uid://ddm8cd1xcq140" path="res://assets/interface/pause.png" id="5_5w1ip"]
 
 [node name="levelcomtempo" type="Node2D"]
 script = ExtResource("1_i44o4")
@@ -29,3 +30,16 @@ offset_bottom = 54.0
 text = "TEMPO:"
 
 [node name="inventario_tempo" parent="." instance=ExtResource("4_td6w4")]
+
+[node name="pausar" type="TextureButton" parent="."]
+offset_left = 305.0
+offset_top = 12.0
+offset_right = 435.0
+offset_bottom = 142.0
+scale = Vector2(0.5, 0.5)
+texture_normal = ExtResource("5_5w1ip")
+texture_pressed = ExtResource("5_5w1ip")
+texture_hover = ExtResource("5_5w1ip")
+texture_focused = ExtResource("5_5w1ip")
+
+[connection signal="button_up" from="pausar" to="." method="_on_pausar_button_up"]

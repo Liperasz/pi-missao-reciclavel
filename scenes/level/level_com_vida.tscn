@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://c5exf7ufoyvw2"]
+[gd_scene load_steps=6 format=3 uid="uid://c5exf7ufoyvw2"]
 
 [ext_resource type="Script" uid="uid://if2mtxuonmc5" path="res://scripts/level/level_com_vida.gd" id="1_vsfgd"]
 [ext_resource type="PackedScene" uid="uid://dm0nv7mdhpm30" path="res://scenes/recycle_bin/recycle_bin.tscn" id="2_s7uf1"]
 [ext_resource type="PackedScene" uid="uid://cju2hkmd3d61g" path="res://scenes/trash/trash.tscn" id="3_2cs12"]
 [ext_resource type="PackedScene" uid="uid://c3hnv30m52if5" path="res://scenes/inventario/inventario_level_com_vidas.tscn" id="4_a225p"]
+[ext_resource type="Texture2D" uid="uid://ddm8cd1xcq140" path="res://assets/interface/pause.png" id="5_s7uf1"]
 
 [node name="Scene" type="Node2D"]
 script = ExtResource("1_vsfgd")
@@ -26,3 +27,16 @@ text = "VIDA:"
 metadata/_edit_use_anchors_ = true
 
 [node name="inventario_level_com_vidas" parent="." instance=ExtResource("4_a225p")]
+
+[node name="pausar" type="TextureButton" parent="."]
+offset_left = 305.0
+offset_top = 12.0
+offset_right = 435.0
+offset_bottom = 142.0
+scale = Vector2(0.5, 0.5)
+texture_normal = ExtResource("5_s7uf1")
+texture_pressed = ExtResource("5_s7uf1")
+texture_hover = ExtResource("5_s7uf1")
+texture_focused = ExtResource("5_s7uf1")
+
+[connection signal="button_up" from="pausar" to="." method="_on_pausar_button_up"]

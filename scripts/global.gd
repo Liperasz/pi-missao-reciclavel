@@ -1,27 +1,45 @@
 extends Node2D
-var item_selecionado: int = 0
 
-var is_dragging = false
+# ============================================================================
+# 1. ESTADO DO JOGO E CONFIGURAÇÕES
+# ============================================================================
 
-#level do jogador
+# Define se o jogador está atualmente em uma partida.
+var is_on_match = false
+
+# Define se o modo de jogo "Especial" (com vida/tempo) está ativo.
+var modo_especial = false
+
+# Define o nível que o jogador está jogando no momento.
 var current_level = 1
 
-# Progresso do Modo Padrão
-var progresso_padrao = {
-	"max_level": 1,
-	"fases_completas": {} # Ex: {"Fase 1": {"estrelas": 3, "pontos": 150}}
-}
-
-# Progresso do Modo Especial
-var progresso_especial = {
-	"max_level": 1,
-	"fases_completas": {}
-}
-
+# Flags de estado para partidas especiais.
 var missao_diaria = false
-var vidas : int = 5
-var qtd_vida : int = vidas
+var super_ima_ativo = false
 
+# Configurações de áudio
+var musica_ativa = true
+var efeitos_sonoros_ativos = true
+var abriu_jogo = true
+
+# Configurações do jogador.
+var volume = 0
+
+# Variáveis de controle de input (não usadas no momento, mas mantidas).
+var item_selecionado: int = 0
+var is_dragging = false
+
+
+# ============================================================================
+# 2. DADOS DE PROGRESSO DO JOGADOR (PERSISTENTE)
+# ============================================================================
+
+const SAVE_FILE_PATH = "user://progresso_jogador.save"
+
+var progresso_padrao = { "max_level": 1, "fases_completas": {} }
+var progresso_especial = { "max_level": 1, "fases_completas": {} }
+
+var saldo_estrelas = 0
 var poderes = {
 	1: {"nome": "add_vida", "quantidade": 1},
 	2: {"nome": "limpador_rapido", "quantidade": 1},
@@ -30,73 +48,56 @@ var poderes = {
 	5: {"nome": "super_ima", "quantidade": 0},
 }
 
-var super_ima_ativo = false
 
-# Variaveis para dicas
+# ============================================================================
+# 3. DADOS DA PARTIDA ATUAL (TEMPORÁRIO)
+# ============================================================================
+
+var vidas : int = 5
+var qtd_vida : int = vidas
+var pontos = 0
+var estrelas = 0
+var acertos_pontuacao = 0
+var erros_pontuacao = 0
+var multiplicador = 1
 var erros = 0
 var erros_consecutivos = 0
 
-# Variaveis para controle de pontuacao
-var erros_pontuacao = 0
-var acertos_pontuacao = 0
-var pontos = 0
-var estrelas = 0
-var multiplicador = 1
-#sistema de pontuação inicio
-#variaves inicializadas
-var fases_completas = {}  # funcionará no esquema: {"Fase 1": {"estrelas": 3, "pontos": 150}}
-var saldo_estrelas = 0
 
-#variaveis para escolher modo de jogo:
-var modo_especial = false
-
-#variaveis de configuração:
-var volume = 0
-# Caminho para salvar o progresso
-const SAVE_FILE_PATH = "user://progresso_jogador.save"
-
-func deletar_progresso_antigo():
-	if FileAccess.file_exists(SAVE_FILE_PATH):
-		print("Arquivo de save antigo encontrado. Deletando...")
-		var dir = DirAccess.open("user://")
-		dir.remove(SAVE_FILE_PATH.get_file())
-		print("Arquivo de save deletado.")
+# ============================================================================
+# 4. FUNÇÕES PRINCIPAIS E DE LÓGICA
+# ============================================================================
 
 func _ready():
-	deletar_progresso_antigo()
 	carregar_progresso()
 
-# ela e chamada quando o jogador termina uma fase
 func atualizar_fase(fase_nome: String, estrelas_conquistadas: int, pontos_conquistados: int) -> void:
-	var progresso_alvo
-	
-	if modo_especial:
-		progresso_alvo = progresso_especial
-	else:
-		progresso_alvo = progresso_padrao
-
+	var progresso_alvo = progresso_especial if modo_especial else progresso_padrao
 	var dados_antigos = progresso_alvo.fases_completas.get(fase_nome, {"estrelas": 0, "pontos": 0})
 	var estrelas_antigas = dados_antigos["estrelas"]
 	var pontuacao_antiga = dados_antigos["pontos"]
-
 	var diferenca_estrelas = max(0, estrelas_conquistadas - estrelas_antigas)
 	saldo_estrelas += diferenca_estrelas
-
 	progresso_alvo.fases_completas[fase_nome] = {
 		"estrelas": max(estrelas_antigas, estrelas_conquistadas),
 		"pontos": max(pontuacao_antiga, pontos_conquistados)
 	}
-	
 	salvar_progresso()
-	
 
-# salva os dados 
+
+# ============================================================================
+# 5. SISTEMA DE SAVE E LOAD
+# ============================================================================
+
 func salvar_progresso():
 	var dados_para_salvar = {
 		"progresso_padrao": progresso_padrao,
 		"progresso_especial": progresso_especial,
 		"saldo_estrelas": saldo_estrelas,
-		"poderes": poderes 
+		"poderes": poderes,
+		# --- SALVANDO AS NOVAS CONFIGURAÇÕES ---
+		"musica_ativa": musica_ativa,
+		"efeitos_sonoros_ativos": efeitos_sonoros_ativos
 	}
 	var file = FileAccess.open(SAVE_FILE_PATH, FileAccess.WRITE)
 	if file:
@@ -111,101 +112,91 @@ func carregar_progresso():
 			progresso_padrao = dados_carregados.get("progresso_padrao", { "max_level": 1, "fases_completas": {} })
 			progresso_especial = dados_carregados.get("progresso_especial", { "max_level": 1, "fases_completas": {} })
 			saldo_estrelas = dados_carregados.get("saldo_estrelas", 0)
-			poderes = dados_carregados.get("poderes", poderes) # Carrega os poderes ou usa o padrão
+			poderes = dados_carregados.get("poderes", poderes)
+			# --- CARREGANDO AS NOVAS CONFIGURAÇÕES ---
+			musica_ativa = dados_carregados.get("musica_ativa", true)
+			efeitos_sonoros_ativos = dados_carregados.get("efeitos_sonoros_ativos", true)
+			
+			# Aplica o estado carregado aos buses de áudio
+			AudioServer.set_bus_mute(AudioServer.get_bus_index("Music"), not musica_ativa)
+			AudioServer.set_bus_mute(AudioServer.get_bus_index("SFX"), not efeitos_sonoros_ativos)
+			
 			file.close()
 
-func som_lixeira_correta():	
-	var som = load("res://assets/song/LixeiraCorreta.wav")
-	if som == null:
-		push_error("Arquivo não encontrado! ")
-		return
-	else:
-		tocar_som(som)
-		
-func som_lixeira_errada():	
-	var som = load("res://assets/song/LixeiraErrada.wav")
-	if som == null:
-		push_error("Arquivo não encontrado! ")
-		return
-	else:
-		tocar_som(som)
-		
-func som_click():	
-	var som = load("res://assets/song/click.wav")
-	if som == null:
-		push_error("Arquivo não encontrado! ")
-		return
-	else:
-		tocar_som(som)		
 
-func som_Entrada():	
-	var som = load("res://assets/song/Entrada.wav")
-	if som == null:
-		push_error("Arquivo não encontrado! ")
-		return
-	else:
-		tocar_som(som)		
+# Função de utilidade para limpar o save durante o desenvolvimento.
+func deletar_progresso_antigo():
+	if FileAccess.file_exists(SAVE_FILE_PATH):
+		print("Arquivo de save antigo encontrado. Deletando...")
+		var dir = DirAccess.open("user://")
+		dir.remove(SAVE_FILE_PATH.get_file())
+		print("Arquivo de save deletado.")
 
-func som_Game_over():	
-	var som = load("res://assets/song/GameOver.wav")
-	if som == null:
-		push_error("Arquivo não encontrado! ")
-		return
-	else:
-		tocar_som(som)		
 
-func som_Poder_Vida():	
-	var som = load("res://assets/song/PoderComprarVida.wav")
-	if som == null:
-		push_error("Arquivo não encontrado! ")
-		return
-	else:
-		tocar_som(som)		
+# ============================================================================
+# 6. SISTEMA DE SOM
+# Funções para tocar os efeitos sonoros do jogo.
+# ============================================================================
 
-func som_Poder_Dobrar_Ganho():	
-	var som = load("res://assets/song/PoderDobrarGanho.wav")
-	if som == null:
-		push_error("Arquivo não encontrado! ")
-		return
-	else:
-		tocar_som(som)	
-
-func som_Poder_Ima():	
-	var som = load("res://assets/song/PoderImã.wav")
-	if som == null:
-		push_error("Arquivo não encontrado! ")
-		return
-	else:
-		tocar_som(som)	
-		
-func som_Poder_Limpador():	
-	var som = load("res://assets/song/PoderLimpador.wav")
-	if som == null:
-		push_error("Arquivo não encontrado! ")
-		return
-	else:
-		tocar_som(som)	
-
-func som_Poder_Tempo():	
-	var som = load("res://assets/song/PoderTempo.wav")
-	if som == null:
-		push_error("Arquivo não encontrado! ")
-		return
-	else:
-		tocar_som(som)	
-
-func som_Vitoria():	
-	var som = load("res://assets/song/Vitoria.wav")
-	if som == null:
-		push_error("Arquivo não encontrado! ")
-		return
-	else:
-		tocar_som(som)			
-					
 func tocar_som(som):
 	var tocar = AudioStreamPlayer.new()
 	tocar.stream = som
+	tocar.bus = "SFX"
 	add_child(tocar) 
 	tocar.play()
 	tocar.connect("finished", Callable(tocar, "queue_free"))
-	
+
+func som_lixeira_correta():   
+	var som = load("res://assets/song/LixeiraCorreta.wav")
+	if som: tocar_som(som)
+	else: push_error("Arquivo de som não encontrado!")
+		
+func som_lixeira_errada():   
+	var som = load("res://assets/song/LixeiraErrada.wav")
+	if som: tocar_som(som)
+	else: push_error("Arquivo de som não encontrado!")
+		
+func som_click():   
+	var som = load("res://assets/song/click.wav")
+	if som: tocar_som(som)
+	else: push_error("Arquivo de som não encontrado!")
+
+func som_Entrada():   
+	var som = load("res://assets/song/Entrada.wav")
+	if som: tocar_som(som)
+	else: push_error("Arquivo de som não encontrado!")
+
+func som_Game_over():   
+	var som = load("res://assets/song/GameOver.wav")
+	if som: tocar_som(som)
+	else: push_error("Arquivo de som não encontrado!")
+
+func som_Poder_Vida():   
+	var som = load("res://assets/song/PoderComprarVida.wav")
+	if som: tocar_som(som)
+	else: push_error("Arquivo de som não encontrado!")
+
+func som_Poder_Dobrar_Ganho():   
+	var som = load("res://assets/song/PoderDobrarGanho.wav")
+	if som: tocar_som(som)
+	else: push_error("Arquivo de som não encontrado!")
+
+func som_Poder_Ima():   
+	var som = load("res://assets/song/PoderImã.wav")
+	if som: tocar_som(som)
+	else: push_error("Arquivo de som não encontrado!")
+		
+func som_Poder_Limpador():   
+	var som = load("res://assets/song/PoderLimpador.wav")
+	if som: tocar_som(som)
+	else: push_error("Arquivo de som não encontrado!")
+
+func som_Poder_Tempo():   
+	var som = load("res://assets/song/PoderTempo.wav")
+	if som: tocar_som(som)
+	else: push_error("Arquivo de som não encontrado!")
+
+func som_Vitoria():   
+	var som = load("res://assets/song/Vitoria.wav")
+	if som: tocar_som(som)
+	else: push_error("Arquivo de som não encontrado!")
