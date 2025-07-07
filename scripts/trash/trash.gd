@@ -15,11 +15,15 @@ var body_ref
 var offset: Vector2
 var initial_position: Vector2
 
+# Usada para impedir que o jogador arraste o lixo enquanto ele é puxado pelo imã.
+var interacao_bloqueada = false
+
 func _ready() -> void:
 	load_sprite()
 
 func _process(delta: float) -> void:
-	if draggable:
+	# Impede o arrastar se a interação estiver bloqueada
+	if draggable and not interacao_bloqueada:
 		if Input.is_action_just_pressed("click"):
 			initial_position = global_position
 			offset = get_global_mouse_position() - global_position
@@ -35,7 +39,7 @@ func _process(delta: float) -> void:
 			if is_inside_dropable:
 				if self.type == body_ref.type.to_lower():
 					global.som_lixeira_correta()
-					global.erros_consecutivos = 0  # Reset após acerto
+					global.erros_consecutivos = 0
 					global.acertos_pontuacao += 1
 					emit_signal("is_on_right_bin", self)
 				else:
@@ -48,7 +52,7 @@ func _process(delta: float) -> void:
 
 					if global.erros_consecutivos >= 2:
 						mostrar_dica()
-						global.erros_consecutivos = 0  # Reset após dica
+						global.erros_consecutivos = 0
 
 					tween.tween_property(self, "global_position", initial_position, 0.2).set_ease(Tween.EASE_OUT)
 			else:
@@ -85,8 +89,7 @@ func load_sprite() -> void:
 		sprite.texture = texture
 	else:
 		push_error("Imagem não encontrada: " + folder_path + "/" + random_trash)
-	#print("📂 Pasta:", folder_path)
-	#print("🔍 Tipo:", type)
+
 func _on_area_body_entered(body: Node2D) -> void:
 	if body.is_in_group("dropable"):
 		is_inside_dropable = true
@@ -99,7 +102,8 @@ func _on_area_body_exited(body: Node2D) -> void:
 		is_inside_dropable = false
 
 func _on_area_mouse_entered() -> void:
-	if not global.is_dragging:
+	# Impede o hover se a interação estiver bloqueada
+	if not global.is_dragging and not interacao_bloqueada:
 		draggable = true
 		scale = Vector2(1.05, 1.05)
 

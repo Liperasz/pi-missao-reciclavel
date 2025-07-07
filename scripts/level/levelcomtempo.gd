@@ -6,9 +6,9 @@ extends Node2D
 @onready var label_tempo: Label = get_node("LabelTempo")
 @onready var cronometro: Timer = get_node("%Timer_do_jogo")
 
-var tempo_em_segundos: int = 15
-var tempo_inicial: int = tempo_em_segundos
-var tempo_medio_por_lixo: float = 2
+var tempo_em_segundos: int = 60
+var tempo_inicial: int
+var tempo_medio_por_lixo: float = 2.0
 
 
 var scenarios = [
@@ -17,7 +17,6 @@ var scenarios = [
 	"construcao",
 	"deserto",
 	"fazenda",
-	#falta 3 cenários que não consegui carregar no godot
 	"parque_diversao",
 	"praia"
 ]
@@ -42,24 +41,24 @@ var score_scene = preload("res://scenes/interface/score_screen.tscn")
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	global.super_ima_ativo = false
+	tempo_inicial = tempo_em_segundos # Define o tempo inicial aqui
 	global.som_Entrada()
 	choose_scenario()
 	choose_trash_types()
 	create_recycle_bins()
-	create_trash()	
+	create_trash()
 	cronometro.connect("timeout", Callable(self, "_on_cronometro_timeout"))
 	atualizar_label()
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
-	
 func _on_cronometro_timeout():
-	tempo_em_segundos -= 1
-	atualizar_label()
+	if tempo_em_segundos > 0:
+		tempo_em_segundos -= 1
+		atualizar_label()
 	
 	if tempo_em_segundos <= 0:
 		cronometro.stop()
+		# Limpa qualquer lixo restante antes de finalizar
 		for child in trash_container.get_children():
 			child.queue_free()
 		finalizou_a_fase()
@@ -68,9 +67,8 @@ func atualizar_label():
 	var min = tempo_em_segundos / 60
 	var seg = tempo_em_segundos % 60
 	label_tempo.text = "TEMPO: " + str("%02d:%02d" % [min, seg])
-	if tempo_em_segundos <= 0:
-		cronometro.stop()
-	
+
+
 func choose_scenario() -> void:
 	scenario = scenarios.pick_random()
 	var path = "res://assets/scenarios/%s.png" % scenario
@@ -83,27 +81,20 @@ func choose_trash_types() -> void:
 	
 	if global.current_level == 1:
 		recycle_bin_quant = 2
-	
 	elif global.current_level == 2:
 		recycle_bin_quant = 3
-		
 	elif global.current_level == 3:
 		recycle_bin_quant = 4
-
 	else:
 		recycle_bin_quant = 4
-	
 	
 	types_in_level = types_in_level.slice(0, recycle_bin_quant)
 	
 	
 func create_recycle_bins() -> void:
-	
 	var bin_spacing = 90
 	var bin_width = 80
-	
 	var total_width = (types_in_level.size() - 1) * bin_spacing + bin_width
-	
 	var start_x = (370 - total_width) / 2 + bin_width / 2
 	
 	for i in types_in_level.size():
@@ -117,7 +108,30 @@ func create_recycle_bins() -> void:
 		recycle_bin.position = Vector2(x, y)
 		recyble_bin_container.add_child(recycle_bin)
 
+func _attract_metal_trash(trash_node: Trash):
+	if not (global.super_ima_ativo and trash_node.type == "metal"):
+		return
+
+	trash_node.interacao_bloqueada = true
+	
+	var metal_bin = null
+	for bin in recyble_bin_container.get_children():
+		if "type" in bin and bin.type == "METAL":
+			metal_bin = bin
+			break
+	
+	if metal_bin:
+		var tween = get_tree().create_tween()
+		tween.tween_property(trash_node, "global_position", metal_bin.global_position, 0.8).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
+		tween.tween_callback(func(): on_trash_dropped(trash_node, true))
+	else:
+		on_trash_dropped(trash_node, true)
+
 func create_trash():
+	# Impede a criação de novos lixos se o tempo acabou.
+	if tempo_em_segundos <= 0:
+		return
+		
 	var random_type = types_in_level.pick_random()
 	var trash = trash_scene.instantiate()
 	trash.type = random_type
@@ -126,15 +140,20 @@ func create_trash():
 	trash_container.add_child(trash)
 	
 	trash.connect("is_on_right_bin", Callable(self, "on_trash_dropped"))
-
-func on_trash_dropped(trash):
-	tocar_som(trash.type)
-	trash.queue_free()
 	
-	if tempo_em_segundos == 0:	
-		finalizou_a_fase()
+	# Chama a função auxiliar para verificar se este novo lixo deve ser atraído.
+	_attract_metal_trash(trash)
 
-	else:
+func on_trash_dropped(trash, coleta_automatica = false):
+	if coleta_automatica:
+		global.acertos_pontuacao += 1
+		
+	tocar_som(trash.type)
+	
+	if trash and is_instance_valid(trash) and not trash.is_queued_for_deletion():
+		trash.queue_free()
+	
+	if tempo_em_segundos > 0:
 		create_trash()
 
 func zerar_variaveis_globais():
@@ -142,6 +161,7 @@ func zerar_variaveis_globais():
 	global.erros_pontuacao = 0
 	global.estrelas = 0
 	global.pontos = 0
+	global.super_ima_ativo = false
 
 func finalizou_a_fase():
 	print("Acabou a fase")
@@ -157,6 +177,7 @@ func finalizou_a_fase():
 
 	add_child(pontuacao)
 	await pontuacao.fechar_tela_pontuacao
+	
 	var score = score_scene.instantiate()
 	add_child(score)
 	
@@ -175,28 +196,20 @@ func finalizou_a_fase():
 				get_tree().change_scene_to_file("res://scenes/level/level_com_vida.tscn")
 	
 func limpar_lixo_poder():
-	for child in trash_container.get_children():
-		print("Filho encontrado:", child.name, "Tipo:", child)
 	if trash_container.get_child_count() > 0:
-		for child in trash_container.get_children():
-			if child is Trash:
-				print("Limpou um lixo:", child.name)
-				child.queue_free()
-				global.acertos_pontuacao += 1
-				break
-	if tempo_em_segundos != 0:
-		create_trash()
-	
+		var child = trash_container.get_child(0)
+		if child is Trash:
+			print("Limpou um lixo:", child.name)
+			on_trash_dropped(child, true)
+				
 func super_ima_poder():
+	global.super_ima_ativo = true
+	print("Super Imã ATIVADO!")
+	
 	if trash_container.get_child_count() > 0:
-		for child in trash_container.get_children():
-			if child is Trash and child.type == "metal":
-				print("Limpou um lixo:", child.name)
-				child.queue_free()
-				global.acertos_pontuacao += 1
-				if tempo_em_segundos != 0:
-					create_trash()
-				break
+		var current_trash = trash_container.get_child(0)
+		if current_trash is Trash:
+			_attract_metal_trash(current_trash)
 	
 func tocar_som(random_type):
 	var tocar = AudioStreamPlayer.new()
@@ -211,4 +224,4 @@ func tocar_som(random_type):
 	add_child(tocar) 
 	tocar.play()
 	await tocar.finished
-	tocar.queue_free()		
+	tocar.queue_free()

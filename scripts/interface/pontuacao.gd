@@ -40,13 +40,27 @@ func calcular_estrelas(pontos: int, pontuacao_maxima: int) -> int:
 func finalizar_fase():
 	calcular_pontuacao()
 	atualizar_label()
-	global.estrelas = calcular_estrelas(global.pontos, pontuacao_maxima)
-	print("estrelas antes ", global.estrelas)
-	global.estrelas *= global.multiplicador
-	print("estrelas depois ", global.estrelas)
+	
+	var estrelas_base = calcular_estrelas(global.pontos, pontuacao_maxima)
+	global.estrelas = estrelas_base
 	nome_fase = "Fase " + str(global.current_level) 
 	
-	global.atualizar_fase(nome_fase, global.estrelas, global.pontos)
+	if not global.missao_diaria:
+		global.atualizar_fase(nome_fase, estrelas_base, global.pontos)
+	
+	# 5. Se o poder de dobrar foi usado, adiciona as estrelas bônus DIRETAMENTE ao saldo.
+	if global.multiplicador == 2 and not global.missao_diaria:
+		print("Poder de Dupla Pontuação ativado! Ganhando %d estrelas bônus." % estrelas_base)
+		global.saldo_estrelas += estrelas_base
+		# Opcional, mas recomendado: salvar o progresso de novo para garantir que as estrelas bônus não sejam perdidas.
+		global.salvar_progresso()
+	
+	# 6. Lógica da missão diária (adiciona estrelas ganhas diretamente ao saldo).
+	if global.missao_diaria:
+		global.saldo_estrelas += estrelas_base
+		global.salvar_progresso()
+
+	# 7. Reseta o multiplicador para a próxima partida.
 	global.multiplicador = 1
 
 # Called when the node enters the scene tree for the first time.

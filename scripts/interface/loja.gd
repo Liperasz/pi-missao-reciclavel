@@ -25,7 +25,7 @@ func _on_item_5_button_up() -> void:
 	item_selected(5)
 
 func _on_item_6_button_up() -> void:
-	item_selected(6)
+	pass
 
 func _on_comprar_1_button_up() -> void:
 	global.som_click()

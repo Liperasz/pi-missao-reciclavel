@@ -38,6 +38,7 @@ var destroyed_trash = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	global.super_ima_ativo = false
 	global.som_Entrada()
 	choose_scenario()
 	choose_trash_types()
@@ -67,30 +68,24 @@ func choose_trash_types() -> void:
 	
 	if global.current_level == 1:
 		recycle_bin_quant = 2
-		trash_quant =3
-	
+		trash_quant = 3
 	elif global.current_level == 2:
 		recycle_bin_quant = 3
-		trash_quant =5
-		
+		trash_quant = 5
 	elif global.current_level == 3:
 		recycle_bin_quant = 4
-		trash_quant =7
+		trash_quant = 7
 	else:
 		recycle_bin_quant = 4
-		trash_quant =10
-	
+		trash_quant = 10
 	
 	types_in_level = types_in_level.slice(0, recycle_bin_quant)
 	
 	
 func create_recycle_bins() -> void:
-	
 	var bin_spacing = 90
 	var bin_width = 80
-	
 	var total_width = (types_in_level.size() - 1) * bin_spacing + bin_width
-	
 	var start_x = (370 - total_width) / 2 + bin_width / 2
 	
 	for i in types_in_level.size():
@@ -116,24 +111,41 @@ func create_trash():
 	trash.scenario = scenario
 	trash.position = Vector2(195, 800)
 	trash_container.add_child(trash)
-	print("Adicionado à cena:", trash.name)
-	print("Trash container tem %d filhos" % trash_container.get_child_count())
-	for child in trash_container.get_children():
-		print("Filho:", child.name, "Posição:", child.position, "Visível:", child.visible)
-
 	
 	trash.connect("is_on_right_bin", Callable(self, "on_trash_dropped"))
+	
+	# Verifica se o poder está ativo e se o lixo é de metal.
+	if global.super_ima_ativo and trash.type == "metal":
+		trash.interacao_bloqueada = true
+		
+		var metal_bin = null
+		for bin in recyble_bin_container.get_children():
+			if "type" in bin and bin.type == "METAL":
+				metal_bin = bin
+				break
+		
+		if metal_bin:
+			var tween = create_tween()
+			tween.tween_property(trash, "global_position", metal_bin.global_position, 0.8).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
+			tween.tween_callback(func(): on_trash_dropped(trash, true))
+		else:
+			on_trash_dropped(trash, true)
 
-func on_trash_dropped(trash):
+func on_trash_dropped(trash, coleta_automatica = false):
+	# Se a coleta foi automática por um poder, adiciona o ponto aqui.
+	if coleta_automatica:
+		global.acertos_pontuacao += 1
+		
 	tocar_som(trash.type)
 	destroyed_trash += 1
-	trash.queue_free()
 	
-	if destroyed_trash >= trash_quant:	
+	if trash and is_instance_valid(trash) and not trash.is_queued_for_deletion():
+		trash.queue_free()
+	
+	if destroyed_trash >= trash_quant:
 		print("destroyed_trash ", destroyed_trash)
 		print(" trash_quan ", trash_quant)
 		finalizou_a_fase()
-		
 	else:
 		create_trash()
 		
@@ -142,6 +154,7 @@ func zerar_variaveis_globais():
 	global.erros_pontuacao = 0
 	global.estrelas = 0
 	global.pontos = 0
+	global.super_ima_ativo = false
 
 func finalizou_a_fase():
 	print("Acabou a fase", global.current_level)
@@ -173,40 +186,31 @@ func finalizou_a_fase():
 				get_tree().change_scene_to_file("res://scenes/level/level_com_vida.tscn")
 		
 func limpar_lixo_poder():
-	#for child in trash_container.get_children():
-		#print("Filho encontrado:", child.name, "Tipo:", child)
 	if trash_container.get_child_count() > 0:
-		for child in trash_container.get_children():
-			if child is Trash:
-				print("Limpou um lixo:", child.name)
-				child.queue_free()
-				await get_tree().create_timer(0.05)
-				destroyed_trash += 1
-				global.acertos_pontuacao += 1
-				if destroyed_trash >= trash_quant:
-					#print("destroyed_trash ", destroyed_trash)
-					#print(" trash_quan ", trash_quant)
-					finalizou_a_fase()
-				else:
-					create_trash()
-				break
+		var child = trash_container.get_child(0)
+		if child is Trash:
+			print("Limpou um lixo:", child.name)
+			on_trash_dropped(child, true)
 				
 func super_ima_poder():
+	global.super_ima_ativo = true
+	print("Super Imã ATIVADO!")
+	
+	# Verifica se o lixo que já está na tela é de metal.
 	if trash_container.get_child_count() > 0:
-		for child in trash_container.get_children():
-			if child is Trash and child.type == "metal":
-				#print("Limpou um lixo:", child.name)
-				child.queue_free()
-				await get_tree().create_timer(0.05)
-				destroyed_trash += 1
-				global.acertos_pontuacao += 1
-				if destroyed_trash >= trash_quant:
-					#print("destroyed_trash ", destroyed_trash)
-					#print(" trash_quan ", trash_quant)
-					finalizou_a_fase()
-				else:
-					create_trash()
-				break
+		var current_trash = trash_container.get_child(0)
+		if current_trash is Trash and current_trash.type == "metal":
+			current_trash.interacao_bloqueada = true
+			var metal_bin = null
+			for bin in recyble_bin_container.get_children():
+				if "type" in bin and bin.type == "METAL":
+					metal_bin = bin
+					break
+			
+			if metal_bin:
+				var tween = create_tween()
+				tween.tween_property(current_trash, "global_position", metal_bin.global_position, 0.8).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
+				tween.tween_callback(func(): on_trash_dropped(current_trash, true))
 	
 func tocar_som(random_type):
 	var tocar = AudioStreamPlayer.new()

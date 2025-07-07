@@ -72,7 +72,7 @@ func update_mission_buttons_state():
 func _on_missao_1_button_up() -> void:
 	global.som_click()
 	if has_mission_been_played_today():
-		global.player_level = 1
+		global.current_level = 1
 		global.multiplicador = 2
 		global.missao_diaria = true
 		aleatorio()
@@ -85,7 +85,7 @@ func _on_missao_1_button_up() -> void:
 func _on_missao_2_button_up() -> void:
 	global.som_click()
 	if has_mission_been_played_today():
-		global.player_level = 2
+		global.current_level = 2
 		global.multiplicador = 2.5
 		global.missao_diaria = true
 		aleatorio()
@@ -98,7 +98,7 @@ func _on_missao_2_button_up() -> void:
 func _on_missao_3_button_up() -> void:
 	global.som_click()
 	if has_mission_been_played_today():
-		global.player_level = 4
+		global.current_level = 4
 		global.multiplicador = 3
 		global.missao_diaria = true
 		aleatorio()

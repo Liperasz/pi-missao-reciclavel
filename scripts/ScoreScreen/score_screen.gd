@@ -9,13 +9,20 @@ var background_missao = load("res://assets/interface/pontuacao/pontuacao.png")
 @onready var background: TextureRect = get_node("Fundo")
 
 func _ready():
-	
-	# Se o jogador passou de fase E estava jogando o nível mais alto disponível...
-	if global.estrelas >= 1 and global.current_level == global.max_level:
-		# desbloqueia o próximo nível.
-		global.max_level += 1
+	if global.estrelas >= 1 and not global.missao_diaria:
+		if global.modo_especial:
+			# Desbloqueia o próximo nível no modo Especial
+			if global.current_level == global.progresso_especial.max_level:
+				global.progresso_especial.max_level += 1
+		else:
+			# Desbloqueia o próximo nível no modo Padrão
+			if global.current_level == global.progresso_padrao.max_level:
+				global.progresso_padrao.max_level += 1
+		
+		# Salva o progresso após um possível desbloqueio.
 		global.salvar_progresso()
-	
+
+	# Lógica de aparência da tela
 	if global.missao_diaria:
 		background.texture = background_missao
 		$TextureButton2.visible = false
@@ -25,11 +32,15 @@ func _ready():
 		$TextureButton2.visible = true
 		$TextureButton2.disabled = false
 
-	# Mensagem de feedback
-	if global.estrelas >= 3: $LabelFeedback.text = "Perfeito!"
-	elif global.estrelas == 2: $LabelFeedback.text = "Muito bom!"
-	elif global.estrelas == 1: $LabelFeedback.text = "Você conseguiu!"
-	else: $LabelFeedback.text = "Tente novamente"
+	# Mensagem de feedback com base nas estrelas
+	if global.estrelas >= 3: 
+		$LabelFeedback.text = "Perfeito!"
+	elif global.estrelas == 2: 
+		$LabelFeedback.text = "Muito bom!"
+	elif global.estrelas == 1: 
+		$LabelFeedback.text = "Você conseguiu!"
+	else: 
+		$LabelFeedback.text = "Tente novamente"
 		
 	exibir_estrelas(global.estrelas)
 	
@@ -38,7 +49,6 @@ func _ready():
 		$TextureButton/LabelButton.text = "Menu Principal"
 	elif global.estrelas >= 1:
 		global.som_Vitoria()
-		# O texto agora mostra o nível que acabou de ser desbloqueado
 		$TextureButton/LabelButton.text = "Continuar"
 	else:
 		global.som_Game_over()
@@ -49,11 +59,10 @@ func _ready():
 # Botão 1 (Continuar / Repetir / Menu da Missão)
 func _on_texture_button_button_up() -> void:
 	global.som_click()
-	# A ação "continuar" agora é genérica. A tela de nível decidirá o que fazer.
 	emit_signal("fechar", "continuar")
 	queue_free()
 	
-# Botão 2 (Menu Principal)
+# Botão 2 (Menu de Fases)
 func _on_texture_button_2_button_up() -> void:
 	global.som_click()
 	emit_signal("fechar", "menu")
@@ -69,6 +78,6 @@ func exibir_estrelas(estrelas : int):
 		star.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		star.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		star.set_size(Vector2(128, 128))
-		star.position = Vector2(i * espaco_label + qtd_estrelas_spaco, 320)  # 100 = margem esquerda
+		star.position = Vector2(i * espaco_label + qtd_estrelas_spaco, 320)
 		star.name = "estrela_%d" % i
 		add_child(star)
